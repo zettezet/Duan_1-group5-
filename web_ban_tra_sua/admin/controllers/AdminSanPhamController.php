@@ -298,16 +298,26 @@ class AdminSanPhamController
         }
     }
 
-    // public function deleteSanPham()
-    // {
+    public function deleteSanPham()
+    {
 
-    //     $id = $_GET['id_danh_muc'];
-    //     $danhMuc = $this->modelSanPham->getDetaiDanhMuc($id);
+        $id = $_GET['id_san_pham'];
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
 
-    //     if ($danhMuc) {
-    //         $this->modelSanPham->destroyDanhMuc($id);
-    //     }
-    //     header("Location: " . BASE_URL_ADMIN . '?act=danh-muc');
-    //     exit();
-    // }
+        $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
+
+        if ($sanPham) {
+            deleteFile($sanPham['hinh_anh']);
+            $this->modelSanPham->destroySanPham($id);
+
+            if ($listAnhSanPham) {
+                foreach ($listAnhSanPham as $key => $anhSP)
+                    deleteFile($anhSP['link_hinh_anh']);
+                $this->modelSanPham->destroyAnhSanPham($anhSP['id']);
+            }
+        }
+
+        header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+        exit();
+    }
 }
