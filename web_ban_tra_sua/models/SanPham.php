@@ -24,5 +24,3 @@ class SanPham
         }
     }
 }
-?>
-// test pull request
