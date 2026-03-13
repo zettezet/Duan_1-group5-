@@ -4,10 +4,10 @@
 // Khai báo dưới dạng HẰNG SỐ để không phải dùng $GLOBALS
 
 // Đường dẫn vào đến phần client
-define('BASE_URL', 'http://localhost/xuong-thu-cung/xuong-thu-cung');
+define('BASE_URL', 'http://localhost/web_ban_tra_sua/web_ban_tra_sua');
 
 // Đường dẫn vào đến phần admin
-define('BASE_URL_ADMIN', 'http://localhost/xuong-thu-cung/xuong-thu-cung/admin/');
+define('BASE_URL_ADMIN', 'http://localhost/web_ban_tra_sua/web_ban_tra_sua/admin/');
 
 
 define('DB_HOST', 'localhost');
