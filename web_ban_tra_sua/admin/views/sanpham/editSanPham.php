@@ -14,8 +14,11 @@
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
-        <div class="col-sm-6">
+        <div class="col-sm-9">
           <h1>Sửa sản phẩm <?= $sanPham['ten_san_pham'] ?></h1>
+        </div>
+        <div class="col-sm-3">
+          <a href="<?= BASE_URL_ADMIN . '?act=san-pham' ?>" class="btn btn-secondary">Quay lại</a>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -172,10 +175,6 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
-          <a href="#" class="btn btn-secondary">Cancel</a>
-          <input type="submit" value="Save Changes" class="btn btn-success float-right">
-        </div>
       </div>
   </section>
   <!-- /.content -->

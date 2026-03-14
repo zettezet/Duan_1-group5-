@@ -61,13 +61,18 @@
                       <td> <?= $sanPham['ten_danh_muc'] ?></td>
                       <td> <?= $sanPham['trang_thai'] == 1 ? 'Còn bán' : 'Dừng bán'; ?></td>
                       <td>
-                        <a href="<?= BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $sanPham['id'] ?>">
-                          <button class="btn btn-warning">Sửa</button>
-                        </a>
-                        <a href="<?= BASE_URL_ADMIN . '?act=xoa-san-pham&id_san_pham=' . $sanPham['id'] ?>"
-                          onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">
-                          <button class="btn btn-danger">xóa</button>
-                        </a>
+                        <div class="btn-group">
+                          <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>">
+                            <button class="btn btn-primary">Chi tiết</i></button>
+                          </a>
+                          <a href="<?= BASE_URL_ADMIN . '?act=form-sua-san-pham&id_san_pham=' . $sanPham['id'] ?>">
+                            <button class="btn btn-warning">Sửa</i></button>
+                          </a>
+                          <a href="<?= BASE_URL_ADMIN . '?act=xoa-san-pham&id_san_pham=' . $sanPham['id'] ?>"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')">
+                            <button class="btn btn-danger">Xóa</button>
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   <?php endforeach ?>

@@ -270,10 +270,8 @@ class AdminSanPhamController
             foreach ($upload_file as $file_info) {
                 if ($file_info['id']) {
                     $old_file = $this->modelSanPham->getDetailAnhSanPham($file_info['id'])['link_hinh_anh'];
-
                     // cập nhật ảnh cũ
                     $this->modelSanPham->updateAnhSanPham($file_info['id'], $file_info['file']);
-
                     // xóa ảnh cũ
                     deleteFile($old_file);
                 } else {
@@ -319,5 +317,20 @@ class AdminSanPhamController
 
         header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
         exit();
+    }
+    public function detailSanPham()
+    {
+
+        $id = $_GET['id_san_pham'];
+
+        $sanPham = $this->modelSanPham->getDetailSanPham($id);
+        $listAnhSanPham = $this->modelSanPham->getListAnhSanPham($id);
+
+        if ($sanPham) {
+            require_once './views/sanpham/detailSanPham.php';
+        } else {
+            header("Location: " . BASE_URL_ADMIN . '?act=san-pham');
+            exit();
+        }
     }
 }
