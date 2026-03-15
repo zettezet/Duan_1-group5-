@@ -12,9 +12,9 @@ class AdminDonHang
     public function getALLDonHang()
     {
         try {
-            $sql = 'SELECT don_hang.*, trang_thai_don_hangs.ten_trang_thai
-            FROM don_hang
-            INNER JOIN trang_thai_don_hangs ON don_hang.trang_thai_id = trang_thai_don_hangs.id';
+            $sql = 'SELECT don_hangs.*, trang_thai_don_hangs.ten_trang_thai
+            FROM don_hangs
+            INNER JOIN trang_thai_don_hangs ON don_hangs.trang_thai_id = trang_thai_don_hangs.id';
 
             $stmt = $this->conn->prepare($sql);
 
