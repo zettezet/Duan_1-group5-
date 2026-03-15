@@ -48,18 +48,18 @@
                                     <?php foreach ($listDonHang as $key => $donhang): ?>
                                         <tr>
                                             <td><?= $key + 1 ?></td>
-                                            <td> <?= $donHang['ma_don_hang'] ?></td>
-                                            <td> <?= $donHang['ten_nguoi_nhan'] ?></td>
-                                            <td> <?= $donHang['sdt_nguoi_nhan'] ?></td>
-                                            <td> <?= $donHang['ngay_dat'] ?></td>
-                                            <td> <?= $donHang['tong_tien'] ?></td>
-                                            <td> <?= $donHang['ten_trang_thai'] ?></td>
+                                            <td> <?= $donhang['ma_don_hang'] ?></td>
+                                            <td> <?= $donhang['ten_nguoi_nhan'] ?></td>
+                                            <td> <?= $donhang['sdt_nguoi_nhan'] ?></td>
+                                            <td> <?= $donhang['ngay_dat'] ?></td>
+                                            <td> <?= $donhang['tong_tien'] ?></td>
+                                            <td> <?= $donhang['ten_trang_thai'] ?></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don-hang=' . $sanPham['id'] ?>">
+                                                    <a href="<?= BASE_URL_ADMIN . '?act=chi-tiet-don-hang&id_don-hang=' . $donhang['id'] ?>">
                                                         <button class="btn btn-primary">Chi tiết</i></button>
                                                     </a>
-                                                    <a href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don-hang=' . $sanPham['id'] ?>">
+                                                    <a href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don-hang=' . $donhang['id'] ?>">
                                                         <button class="btn btn-warning">Sửa</i></button>
                                                     </a>
 
