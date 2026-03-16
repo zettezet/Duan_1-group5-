@@ -27,37 +27,37 @@
       <div class="row">
         <div class="col-12">
           <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Sửa danh mục sản phẩm</h3>
-              </div>
-            
-              <form action="<?= BASE_URL_ADMIN . '?act=sua-danh-muc' ?>" method="POST">
+            <div class="card-header">
+              <h3 class="card-title">Sửa danh mục sản phẩm</h3>
+            </div>
 
-                <input type="text" name="id" value="<?= $danhMuc['id'] ?>" hidden>
-                
-                <div class="card-body">
-                  <div class="form-group">
-                    <label ">Tên danh mục</label>
-                    <input type="text" class="form-control" name="ten_danh_muc" value="<?= $danhMuc['ten_danh_muc'] ?>" placeholder="Nhập tên danh mục">
-                    <?php if(isset($errors['ten_danh_muc'])) {?>
-                    <p class="text-danger"><?= $errors['ten_danh_muc'] ?></p>
+            <form action="<?= BASE_URL_ADMIN . '?act=sua-danh-muc' ?>" method="POST">
+
+              <input type="text" name="id" value="<?= $danhMuc['id'] ?>" hidden>
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label ">Tên danh mục</label>
+                    <input type=" text" class="form-control" name="ten_danh_muc" value="<?= $danhMuc['ten_danh_muc'] ?>" placeholder="Nhập tên danh mục">
+                    <?php if (isset($errors['ten_danh_muc'])) { ?>
+                      <p class="text-danger"><?= $errors['ten_danh_muc'] ?></p>
                     <?php } ?>
                 </div>
-                  
-                  <div class="form-group">
-                    <label ">Mô tả</label>
-                    <textarea name="mo_ta" id="" class="form-control" placeholder="Nhập mô tả"><?= $danhMuc['mo_ta'] ?></textarea>
-                      
-                  </div>
-                </div>
-                <!-- /.card-body -->
 
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                  <label ">Mô tả</label>
+                    <textarea name=" mo_ta" id="" class="form-control" placeholder="Nhập mô tả"><?= $danhMuc['mo_ta'] ?></textarea>
+
                 </div>
-              </form>
-            </div>
-          
+              </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+
         </div>
         <!-- /.col -->
       </div>

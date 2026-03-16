@@ -62,7 +62,6 @@
                                                     <a href="<?= BASE_URL_ADMIN . '?act=form-sua-don-hang&id_don-hang=' . $donhang['id'] ?>">
                                                         <button class="btn btn-warning">Sửa</i></button>
                                                     </a>
-
                                                 </div>
                                             </td>
                                         </tr>
