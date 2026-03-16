@@ -43,8 +43,8 @@
           <div class="col-12 col-sm-6">
             <h3 class="my-3">Tên sản phẩm: <?= $sanPham['ten_san_pham'] ?></h3>
             <hr>
-            <h4 class="mt-3">Giá tiền <small><?= number_format($sanPham['gia_san_pham'], 0, ',', '.') ?> VND</small></h4>
-            <h4 class="mt-3">Giá khuyến mãi <small><?= number_format($sanPham['gia_khuyen_mai'], 0, ',', '.') ?> VND</small></h4>
+            <h4 class="mt-3">Giá tiền <small><?= number_format($sanPham['gia_san_pham'] ?? 0, 0, ',', '.') ?> VND</small></h4>
+            <h4 class="mt-3">Giá khuyến mãi <small><?= number_format($sanPham['gia_khuyen_mai'] ?? 0, 0, ',', '.') ?> VND</small></h4>
             <h4 class="mt-3">Số lượng <small><?= $sanPham['so_luong'] ?></small></h4>
             <h4 class="mt-3">Lượt xem <small><?= $sanPham['luot_xem'] ?></small></h4>
             <h4 class="mt-3">Ngày nhập <small><?= $sanPham['ngay_nhap'] ?></small></h4>
