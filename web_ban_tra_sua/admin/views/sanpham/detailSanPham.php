@@ -53,47 +53,42 @@
             <h4 class="mt-3">Mô tả <small><?= $sanPham['mo_ta'] ?></small></h4>
           </div>
         </div>
-        <!-- <div class="row mt-4">
-          <nav class="w-100">
-            <div class="nav nav-tabs" id="product-tab" role="tablist">
-              <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Bình luận</a>
-            </div>
-          </nav>
-          <div class="tab-content p-3" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
-              <div class="container">
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <ul class="nav nav-tabs row mt-4" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Bình luận</button>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-            <table class="table table-striped table-hover">
+
+        <div class="col-12">
+          <h2>Bình luận của sản phẩm</h2>
+          <div>
+            <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Tên người bình luận</th>
-                  <th>Nội dung</th>
+                  <th>STT</th>
+                  <th>Người bình luận</th>
+                  <th>Nội dung bình luận</th>
                   <th>Ngày bình luận</th>
-                  <th>Hành động</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Hoàng Đức Tuệ</td>
-                  <td>Ngon vaiz l</td>
-                  <td>14/03/2026</td>
-                  <td>
-                    <a href="" class="btn btn-danger">Xóa</a>
-                    <a href="" class="btn btn-warning">Ẩn</a>
-                  </td>
-                </tr>
+                <?php foreach ($listBinhLuan as $key => $binhLuan): ?>
+                  <tr>
+                    <td><?= $key + 1 ?></td>
+                    <td> <a target="_blank" href=" <?= BASE_URL_ADMIN . '?act=chi-tiet-khach-hang&id_khach_hang=' . $binhLuan['tai_khoan_id']; ?>">
+                        <?= $binhLuan['ho_ten'] ?></td>
+                    <td> <?= $binhLuan['noi_dung'] ?></td>
+                    <td> <?= $binhLuan['ngay_dang'] ?></td>
+                    <td> <?= $binhLuan['trang_thai'] == 1 ? 'Hiển thị' : 'Ẩn' ?></td>
+                    <td>
+                      <form action=" <?= BASE_URL_ADMIN . '?act=update-trang-thai-binh-luan' ?>" method="POST">
+                        <input type="hidden" name="id_binh_luan" value=" <?= $binhLuan['id'] ?>">
+                        <input type="hidden" name="name_view" value="detail_sanpham">
+                        <button onclick="return confirm('Bạn có muốn ẩn bình luận này không')" class="btn btn-danger">
+                          <?= $binhLuan['trang_thai'] == 1 ? 'Ẩn' : 'Bỏ ẩn' ?>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
             </table>
           </div>
         </div>
