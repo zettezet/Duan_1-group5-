@@ -4,6 +4,8 @@ session_start();
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
+checkLoginAdmin();
+
 // Require toàn bộ file Controllers
 require_once './controllers/AdminDanhMucController.php';
 require_once './controllers/AdminSanPhamController.php';
@@ -71,4 +73,9 @@ match ($act) {
     'form-sua-khach-hang' => (new AdminTaiKhoanController())->formEditKhachhang(),
     'sua-khach-hang' => (new AdminTaiKhoanController())->postEditKhachhang(),
     'chi-tiet-khach-hang' => (new AdminTaiKhoanController())->detailKhachhang(),
+
+    // route auth
+    'login-admin' => (new AdminTaiKhoanController())->formLogin(),
+    'check-login-admin' => (new AdminTaiKhoanController())->login(),
+    'logout-admin' => (new AdminTaiKhoanController())->logout(),
 };
