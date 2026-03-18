@@ -46,6 +46,9 @@ match ($act) {
     'xoa-san-pham' => (new AdminSanPhamController())->deleteSanPham(),
     'chi-tiet-san-pham' => (new AdminSanPhamController())->detailSanPham(),
 
+    // route binh luan
+    'update-trang-thai-binh-luan' => (new AdminSanPhamController())->updateTrangThaiBinhLuan(),
+
     // route quan ly don hang
     'don-hang' => (new AdminDonHangController())->danhSachDonHang(),
     'form-sua-don-hang' => (new AdminDonHangController())->formEditDonHang(),
@@ -68,5 +71,4 @@ match ($act) {
     'form-sua-khach-hang' => (new AdminTaiKhoanController())->formEditKhachhang(),
     'sua-khach-hang' => (new AdminTaiKhoanController())->postEditKhachhang(),
     'chi-tiet-khach-hang' => (new AdminTaiKhoanController())->detailKhachhang(),
-
 };

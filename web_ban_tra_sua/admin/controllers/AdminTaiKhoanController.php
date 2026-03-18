@@ -3,10 +3,14 @@
 class AdminTaiKhoanController
 {
     public $modelTaiKhoan;
+    public $modelDonHang;
+    public $modelSanPham;
 
     public function __construct()
     {
         $this->modelTaiKhoan = new AdminTaiKhoan();
+        $this->modelDonHang = new AdminDonHang();
+        $this->modelSanPham = new AdminSanPham();
     }
 
     public function danhSachQuanTri()
@@ -143,7 +147,6 @@ class AdminTaiKhoanController
             var_dump('lỗi khi reset tài khoản');
             die;
         }
-
     }
 
     public function danhSachKhachhang()
@@ -229,5 +232,13 @@ class AdminTaiKhoanController
         }
     }
 
+    public function detailKhachhang()
+    {
+        $id_khach_hang = $_GET['id_khach_hang'];
+        $khachHang = $this->modelTaiKhoan->getDetaiTaikhoan($id_khach_hang);
 
+        $listDonHang = $this->modelDonHang->getDonHangFromKhachHang($id_khach_hang);
+        $listBinhLuan = $this->modelSanPham->getBinhLuanFromKhachHang($id_khach_hang);
+        require_once './views/taikhoan/khachhang/detailKhachhang.php';
+    }
 }
