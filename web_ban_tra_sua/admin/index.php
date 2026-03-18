@@ -58,4 +58,15 @@ match ($act) {
     'list-tai-khoan-quan-tri' => (new AdminTaiKhoanController())->danhSachQuanTri(),
     'form-them-quan-tri' => (new AdminTaiKhoanController())->formAddQuanTri(),
     'them-quan-tri' => (new AdminTaiKhoanController())->postAddQuanTri(),
+    'form-sua-quan-tri' => (new AdminTaiKhoanController())->formEditQuanTri(),
+    'sua-quan-tri' => (new AdminTaiKhoanController())->postEditQuanTri(),
+    // route reset password tài khoản dùng chung
+    'reset-password' => (new AdminTaiKhoanController())->resetPassword(),
+
+    // quản lý tài khoản khách hàng
+    'list-tai-khoan-khach-hang' => (new AdminTaiKhoanController())->danhSachKhachhang(),
+    'form-sua-khach-hang' => (new AdminTaiKhoanController())->formEditKhachhang(),
+    'sua-khach-hang' => (new AdminTaiKhoanController())->postEditKhachhang(),
+    'chi-tiet-khach-hang' => (new AdminTaiKhoanController())->detailKhachhang(),
+
 };
