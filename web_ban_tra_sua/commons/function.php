@@ -53,7 +53,7 @@ function deleteSessionError()
         // Huy session sau khi đã tải trang
         unset($_SESSION['flash']);
         session_unset();
-        session_destroy();
+        // session_destroy();
     }
 }
 
@@ -68,4 +68,20 @@ function uploadFileAlbum($file, $folderUpload, $key)
         return $pathStorage;
     }
     return null;
+}
+
+// format date
+function formatDate($date)
+{
+    return date('d-m-Y', strtotime($date));
+}
+
+function checkLoginAdmin()
+{
+    if (!isset($_SESSION['user_admin'])) {
+        // require_once './views/auth/formLogin.php';
+        var_dump('abc');
+        die();
+        exit();
+    }
 }
