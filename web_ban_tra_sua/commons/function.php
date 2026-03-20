@@ -80,8 +80,9 @@ function checkLoginAdmin()
 {
     if (!isset($_SESSION['user_admin'])) {
         // require_once './views/auth/formLogin.php';
-        var_dump('abc');
-        die();
+        // var_dump('abc');
+        // die();
+        header("Location: " . BASE_URL_ADMIN . "?act=login-admin");
         exit();
     }
 }
