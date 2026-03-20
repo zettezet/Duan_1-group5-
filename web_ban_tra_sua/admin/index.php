@@ -4,7 +4,7 @@ session_start();
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
-checkLoginAdmin();
+
 
 // Require toàn bộ file Controllers
 require_once './controllers/AdminDanhMucController.php';
@@ -22,7 +22,10 @@ require_once './models/AdminTaiKhoan.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
-// var_dump($_GET['act']);die();
+
+if ($act !== 'login-admin' && $act !== 'check-login-admin' && $act !== 'logout-admin') {
+    checkLoginAdmin();
+}
 
 // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 
@@ -73,6 +76,12 @@ match ($act) {
     'form-sua-khach-hang' => (new AdminTaiKhoanController())->formEditKhachhang(),
     'sua-khach-hang' => (new AdminTaiKhoanController())->postEditKhachhang(),
     'chi-tiet-khach-hang' => (new AdminTaiKhoanController())->detailKhachhang(),
+
+    // route quản lý tài khoản cá nhân(quản trị)
+    'form-sua-thong-tin-ca-nhan-quan-tri' => (new AdminTaiKhoanController())->formEditCaNhanQuanTri(),
+    // 'sua-thong-tin-ca-nhan-quan-tri' => (new AdminTaiKhoanController())->postEditCaNhanQuanTri(),
+
+    // 'sua-mat-khau-ca-nhan-quan-tri' => (new AdminTaiKhoanController())->postEditMatKhauQuanTri(),
 
     // route auth
     'login-admin' => (new AdminTaiKhoanController())->formLogin(),
