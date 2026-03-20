@@ -89,23 +89,39 @@
                 <div class="card-header">
                     <h3 class="card-title">Đổi mật khẩu</h3>
                 </div>
-
+                <?php if (isset($_SESSION['success'])) { ?>
+                    <div class="alert alert-info alert-dismissable">
+                        <a class="panel-close close" data-dismiss="alert">x</a>
+                        <i class="fa fa-coffee"></i>
+                        <?= $_SESSION['success']; ?>
+                    </div>
+                <?php } ?>
                 <div class="card-body">
                     <form action="<?= BASE_URL_ADMIN . '?act=sua-mat-khau-ca-nhan-quan-tri' ?>" method="POST">
 
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu cũ</label>
-                            <input type="password" name="old_password" class="form-control">
+                            <input type="text" name="old_pass" class="form-control">
+                            <?php if (isset($_SESSION['error']['old_pass'])) { ?>
+                                <p class="text-danger"> <?= $_SESSION['error']['old_pass'] ?></p>
+                            <?php } ?>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Mật khẩu mới</label>
-                            <input type="password" name="password" id="password" class="form-control">
+                            <input type="text" name="new_pass" id="password" class="form-control">
+                            <?php if (isset($_SESSION['error']['new_pass'])) { ?>
+                                <p class="text-danger"> <?= $_SESSION['error']['new_pass'] ?></p>
+                            <?php } ?>
+
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Xác nhận mật khẩu mới</label>
-                            <input type="password" name="confirm_password" id="confirm_password" class="form-control">
+                            <input type="text" name="confirm_pass" id="confirm_pass" class="form-control">
+                            <?php if (isset($_SESSION['error']['confirm_pass'])) { ?>
+                                <p class="text-danger"> <?= $_SESSION['error']['confirm_pass'] ?></p>
+                            <?php } ?>
                         </div>
 
                         <div class="text-end">
