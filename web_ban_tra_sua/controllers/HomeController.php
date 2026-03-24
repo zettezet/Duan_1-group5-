@@ -5,10 +5,12 @@ class HomeController
 
     public $modelSanPham;
     public $modelTaiKhoan;
+    public $modelGioHang;
     public function __construct()
     {
         $this->modelSanPham = new SanPham();
         $this->modelTaiKhoan = new TaiKhoan();
+        $this->modelGioHang = new GioHang();
     }
 
     public function home()
@@ -72,5 +74,68 @@ class HomeController
                 exit();
             }
         }
+    }
+
+    public function addGioHang()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_SESSION['user_client'])) {
+                $email = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                $gioHang = $this->modelGioHang->getGioHangFromUser($email['id']);
+                if (!$gioHang) {
+                    $gioHangId = $this->modelGioHang->addGioHang($email['id']);
+                    $gioHang = ['id' => $gioHangId];
+                    $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+                } else {
+                    $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+                }
+
+
+
+                $san_pham_id = $_POST['san_pham_id'];
+                $so_luong = $_POST['so_luong'];
+                $checkSanPham = false;
+                foreach ($chiTietGioHang as $detail) {
+                    if ($detail['san_pham_id'] == $san_pham_id) {
+                        $newSoLuong = $detail['so_luong'] + $so_luong;
+                        $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $newSoLuong);
+                        $checkSanPham = true;
+                        break;
+                    }
+
+                }
+                if (!$checkSanPham) {
+                    $this->modelGioHang->addDetailGioHang($gioHang['id'], $san_pham_id, $so_luong);
+                }
+                header('Location:' . BASE_URL . '?act=gio-hang');
+
+            } else {
+                var_dump('chưa đăng nhập');
+                die;
+            }
+
+
+        }
+    }
+
+    public function GioHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+                $email = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                $gioHang = $this->modelGioHang->getGioHangFromUser($email['id']);
+                if (!$gioHang) {
+                    $gioHangId = $this->modelGioHang->addGioHang($email['id']);
+                    $gioHang = ['id' => $gioHangId];
+                    $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+                } else {
+                    $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+                }
+
+                require_once './views/giohang.php';
+
+            } else {
+                var_dump('chưa đăng nhập');
+                die;
+            }
     }
 }
