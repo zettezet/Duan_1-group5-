@@ -150,7 +150,7 @@
                     <p class="login-box-msg">Vui lòng đăng nhập</p>
                 <?php } ?>
 
-                <form action="<?php echo BASE_URL_ADMIN . '?act=check-login-admin'; ?>" method="post">
+                <form action="<?php echo BASE_URL_ADMIN . '?act=check-login-admin' ?>" method="post">
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email" name="email">
                     </div>

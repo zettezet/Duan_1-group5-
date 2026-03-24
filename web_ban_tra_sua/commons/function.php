@@ -52,7 +52,8 @@ function deleteSessionError()
     if (isset($_SESSION['flash'])) {
         // Huy session sau khi đã tải trang
         unset($_SESSION['flash']);
-        session_unset();
+        unset($_SESSION['error']);
+        // session_unset();
         // session_destroy();
     }
 }
@@ -86,3 +87,9 @@ function checkLoginAdmin()
         exit();
     }
 }
+function formatPrice($price)
+{
+    return number_format($price, 0, ',', '.');
+}
+
+// Debug
