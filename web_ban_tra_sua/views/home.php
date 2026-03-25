@@ -1472,5 +1472,5 @@
 
 
 
-<?php include_once 'views/layout/miniCart.php'; ?>
+ <?php include_once 'views/layout/miniCart.php'; ?>
  <?php include_once 'views/layout/footer.php'; ?>
