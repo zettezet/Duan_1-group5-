@@ -121,21 +121,44 @@ class HomeController
     public function GioHang()
     {
         if (isset($_SESSION['user_client'])) {
-                $email = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
-                $gioHang = $this->modelGioHang->getGioHangFromUser($email['id']);
-                if (!$gioHang) {
-                    $gioHangId = $this->modelGioHang->addGioHang($email['id']);
-                    $gioHang = ['id' => $gioHangId];
-                    $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
-                } else {
-                    $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
-                }
-
-                require_once './views/giohang.php';
-
+            $email = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($email['id']);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($email['id']);
+                $gioHang = ['id' => $gioHangId];
+                $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
             } else {
-                var_dump('chưa đăng nhập');
-                die;
+                $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
             }
+
+            require_once './views/giohang.php';
+
+        } else {
+            var_dump('chưa đăng nhập');
+            die;
+        }
+    }
+
+    public function ThanhToan()
+    {
+
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($user['id']);
+                $gioHang = ['id' => $gioHangId];
+                $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+            } else {
+                $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+            }
+
+            require_once './views/thanhtoan.php';
+
+        } else {
+            var_dump('chưa đăng nhập');
+            die;
+        }
+        
     }
 }
