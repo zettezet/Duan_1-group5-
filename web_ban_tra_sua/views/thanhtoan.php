@@ -51,13 +51,13 @@
                     <!-- Checkout Login Coupon Accordion End -->
                 </div>
             </div>
-            <div class="row">
-                <!-- Checkout Billing Details -->
-                <div class="col-lg-6">
-                    <div class="checkout-billing-details-wrap">
-                        <h5 class="checkout-title">thông tin người nhận</h5>
-                        <div class="billing-form-wrap">
-                            <form action="#">
+            <form action="<?= BASE_URL . '?act=xu-ly-thanh-toan' ?>" method="post">
+                <div class="row">
+                    <!-- Checkout Billing Details -->
+                    <div class="col-lg-6">
+                        <div class="checkout-billing-details-wrap">
+                            <h5 class="checkout-title">thông tin người nhận</h5>
+                            <div class="billing-form-wrap">
 
                                 <div class="single-input-item">
                                     <label for="ten_nguoi_nhan" class="required">tên người nhận</label>
@@ -91,95 +91,93 @@
                                     <textarea name="ghi_chu" id="ghi_chu" cols="30" rows="3"
                                         placeholder="vui lòng nhập ghi chú đơn hàng của bạn"></textarea>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Order Summary Details -->
-                <div class="col-lg-6">
-                    <div class="order-summary-details">
-                        <h5 class="checkout-title">thông tin sản phẩm</h5>
-                        <div class="order-summary-content">
-                            <!-- Order Summary Table -->
-                            <div class="order-summary-table table-responsive text-center">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>sản phẩm</th>
-                                            <th>tổng</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $tongGioHang = 0;
-                                        foreach ($chiTietGioHang as $key => $sanPham):
-                                            ?>
+                    <!-- Order Summary Details -->
+                    <div class="col-lg-6">
+                        <div class="order-summary-details">
+                            <h5 class="checkout-title">thông tin sản phẩm</h5>
+                            <div class="order-summary-content">
+                                <!-- Order Summary Table -->
+                                <div class="order-summary-table table-responsive text-center">
+                                    <table class="table table-bordered">
+                                        <thead>
                                             <tr>
-                                                <td><a href="">
-                                                        <?= $sanPham['ten_san_pham'] ?> <strong> ×
-                                                            <?= $sanPham['so_luong'] ?></strong></a>
-                                                </td>
-                                                <td>
-                                                    <?php
-                                                    $tong_tien = 0;
-                                                    if ($sanPham['gia_san_pham']) {
-                                                        $tong_tien = $sanPham['gia_khuyen_mai'] * $sanPham['so_luong'];
-                                                    } else {
-                                                        $tong_tien = $sanPham['gia_san_pham'] * $sanPham['so_luong'];
-                                                    }
-                                                    $tongGioHang += $tong_tien;
-                                                    echo formatPrice($tong_tien) . 'đ';
-                                                    ?>
+                                                <th>sản phẩm</th>
+                                                <th>tổng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $tongGioHang = 0;
+                                            foreach ($chiTietGioHang as $key => $sanPham):
+                                            ?>
+                                                <tr>
+                                                    <td><a href="">
+                                                            <?= $sanPham['ten_san_pham'] ?> <strong> ×
+                                                                <?= $sanPham['so_luong'] ?></strong></a>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        $tong_tien = 0;
+                                                        if ($sanPham['gia_san_pham']) {
+                                                            $tong_tien = $sanPham['gia_khuyen_mai'] * $sanPham['so_luong'];
+                                                        } else {
+                                                            $tong_tien = $sanPham['gia_san_pham'] * $sanPham['so_luong'];
+                                                        }
+                                                        $tongGioHang += $tong_tien;
+                                                        echo formatPrice($tong_tien) . 'đ';
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td>tổng tiền sản phẩm</td>
+                                                <td><strong><?= formatPrice($tongGioHang) . ' đ' ?></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Shipping</td>
+                                                <td class="d-flex justify-content-center">
+                                                    <strong>30.000 đ</strong>
                                                 </td>
                                             </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td>tổng tiền sản phẩm</td>
-                                            <td><strong><?= formatPrice($tongGioHang) . ' đ' ?></strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shipping</td>
-                                            <td class="d-flex justify-content-center">
-                                               <strong>30.000 đ</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>tổng đơn hàng</td>
-                                            <td><strong><?= formatPrice($tongGioHang + 30000) . 'đ' ?></strong></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <!-- Order Payment Method -->
-                            <div class="order-payment-method">
-                                <div class="single-payment-method show">
-                                    <div class="payment-method-name">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" id="cashon" name="paymentmethod" value="cash"
-                                                class="custom-control-input" checked />
-                                            <label class="custom-control-label" for="cashon">thanh toán khi nhận hàng</label>
+                                            <tr>
+                                                <td>tổng đơn hàng</td>
+                                                <input type="hidden" name="tong_tien" value="<?= $tongGioHang + 30000 ?>">
+                                                <td><strong><?= formatPrice($tongGioHang + 30000) . 'đ' ?></strong></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- Order Payment Method -->
+                                <div class="order-payment-method">
+                                    <div class="single-payment-method show">
+                                        <div class="payment-method-name">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="cashon" value="1" name="phuong_thuc_thanh_toan_id" class="custom-control-input" checked />
+                                                <label class="custom-control-label" for="cashon">thanh toán khi nhận hàng</label>
+                                            </div>
+                                        </div>
+                                        <div class="payment-method-details" data-method="cash">
+                                            <p>khách hàng có thể thanh toán sau khi đã nhận hàng thành công (cần xác nhận đơn hàng)</p>
                                         </div>
                                     </div>
-                                    <div class="payment-method-details" data-method="cash">
-                                        <p>khách hàng có thể thanh toán sau khi đã nhận hàng thành công (cần xác nhận đơn hàng)</p>
-                                    </div>
-                                </div>
-                                <div class="single-payment-method">
-                                    <div class="payment-method-name">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" id="directbank" name="paymentmethod" value="bank"
-                                                class="custom-control-input" />
-                                            <label class="custom-control-label" for="directbank">thanh toán online</label>
+                                    <div class="single-payment-method">
+                                        <div class="payment-method-name">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="directbank" name="phuong_thuc_thanh_toan_id" value="2" class="custom-control-input" />
+                                                <label class="custom-control-label" for="directbank">thanh toán online</label>
+                                            </div>
+                                        </div>
+                                        <div class="payment-method-details" data-method="bank">
+                                            <p>khách hàng cần thanh toán online</p>
                                         </div>
                                     </div>
-                                    <div class="payment-method-details" data-method="bank">
-                                        <p>khách hàng cần thanh toán online</p>
-                                    </div>
-                                </div>
-                                
+
                                 </div>
                                 <div class="summary-footer-area">
                                     <div class="custom-control custom-checkbox mb-20">
@@ -192,8 +190,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
+    </div>
     </div>
     <!-- checkout main wrapper end -->
 </main>
