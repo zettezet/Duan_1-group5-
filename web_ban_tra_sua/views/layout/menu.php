@@ -91,8 +91,8 @@
                             <div class="header-configure-area">
                                 <ul class="nav justify-content-end">
                                     <label for="">
-                                        <?php if(isset($_SESSION['user_client'])){
-                                                echo $_SESSION['user_client'];
+                                        <?php if (isset($_SESSION['user_client'])) {
+                                            echo $_SESSION['user_client'];
                                         } ?>
                                     </label>
                                     <li class="user-hover">
@@ -100,11 +100,12 @@
                                             <i class="pe-7s-user"></i>
                                         </a>
                                         <ul class="dropdown-list">
-                                            <?php if(!isset($_SESSION['user_client'])){ ?>
+                                            <?php if (!isset($_SESSION['user_client'])) { ?>
                                                 <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
-                                       <?php }else{ ?>
-                                            <li><a href="my-account.html">Tài khoản của tôi</a></li>
-                                            <?php }?>
+                                            <?php } else { ?>
+                                                <li><a href="my-account.html">Tài khoản của tôi</a></li>
+                                                <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Đơn hàng</a></li>
+                                            <?php } ?>
                                         </ul>
                                     </li>
 

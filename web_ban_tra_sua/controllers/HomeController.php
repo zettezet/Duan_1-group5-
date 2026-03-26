@@ -178,27 +178,150 @@ class HomeController
 
             //Thêm thông tin vào db
 
-           $donHang = $this->modelDonHang->addDonHang($tai_khoan_id, $ten_nguoi_nhan, $email_nguoi_nhan,
-             $sdt_nguoi_nhan, $dia_chi_nguoi_nhan, $ghi_chu, $tong_tien,
-              $phuong_thuc_thanh_toan_id, $ngay_dat, $ma_don_hang, $trang_thai_id);
+            $donHang = $this->modelDonHang->addDonHang(
+                $tai_khoan_id,
+                $ten_nguoi_nhan,
+                $email_nguoi_nhan,
+                $sdt_nguoi_nhan,
+                $dia_chi_nguoi_nhan,
+                $ghi_chu,
+                $tong_tien,
+                $phuong_thuc_thanh_toan_id,
+                $ngay_dat,
+                $ma_don_hang,
+                $trang_thai_id
+            );
+            // var_dump('Thêm thành công');
+            // die;
+
+            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+
+            // lưu sản phẩm vào chi tiết đơn háng
+            if ($donHang) {
+                // lấy ra toàn bộ sản phẩm trong giỏ hàng
+                $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+
+                // têm từng sản phẩm từ giỏi hàng vàoo bảng chi tiết đơn hàng
+                foreach ($chiTietGioHang as $item) {
+                    $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
+                    $this->modelDonHang->addChiTietDonHang(
+                        $donHang,
+                        $item['san_pham_id'],
+                        $donGia,
+                        $item['so_luong'],
+                        $donGia * $item['so_luong'] // thanh tien
+                    );
+                }
+
+
+                // sau khi thêm xog tiến hành xóa
+                // xóa toàn bộ sản phẩm trong chi tiết giỏ hàng
+                $this->modelGioHang->clearDetailGioHang($gioHang['id']);
+
+                // xóa thông tin giỏ hàng người dùng
+                $this->modelGioHang->clearGioHang($tai_khoan_id);
+
+
+                // chuyển hướng về trang lịch sử mua hàng
+                header('Location:' . BASE_URL . '?act=lich-su-mua-hang');
+                exit();
+            } else {
+                var_dump('Thêm đơn hàng thất bại');
+                die;
+            }
+        }
+    }
+
+
+    public function lichSuMuaHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            // lấy ra thông tin tài khoản đăng nhập
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            // lấy ra danh sách trạng thái đơn hàng
+            $arrTrangThaiDonHang = $this->modelDonHang->getTrangThaiDonHang();
+            $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'ten_trang_thai', 'id');
+
+
+            // lấy ra danh sách phương thức thanh toán
+            $arrPhuongThucThanhToan = $this->modelDonHang->getPhuongThucThanhToan();
+            $phuongThucThanhToan = array_column($arrPhuongThucThanhToan, 'ten_phuong_thuc', 'id');
+
+            // lấy ra danh sách tất cả đơn hàng của tài khoản
+            $donHangs = $this->modelDonHang->getDonHangFromUser($tai_khoan_id);
+            require_once './views/lichSuMuaHang.php';
+        } else {
+            var_dump('Bạn chưa đăng nhập');
+            die;
+        }
+    }
+
+    public function chiTietMuaHang() {}
+
+    public function huyDonHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            // lấy ra thông tin tài khoản đăng nhập
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+
+            // lấy id đơn hàng truyền từ URL
+            $donHangId = $_GET['id'];
+
+            // kiểm tra đơn hàng
+            $donHang = $this->modelDonHang->getDonHangById($donHangId);
+
+            if ($donHang['tai_khoan_id'] != $tai_khoan_id) {
+                echo "Bạn không có quyền hủy đơn hàng này";
+                die;
+            }
+
+            if ($donHang['trang_thai_id'] != 1) {
+                echo "Chỉ đơn hàng ở trạng thái 'Chưa xác nhận' mới được hủy";
+                die;
+            }
+
+            // hủy đơn hàng
+            $this->modelDonHang->updateTrangThaiDonHang($donHangId, 11);
+            header("Location: " . BASE_URL . "?act=lich-su-mua-hang");
+            exit();
+        } else {
+            var_dump('Bạn chưa đăng nhập');
+            die;
+            $donHang = $this->modelDonHang->addDonHang(
+                $tai_khoan_id,
+                $ten_nguoi_nhan,
+                $email_nguoi_nhan,
+                $sdt_nguoi_nhan,
+                $dia_chi_nguoi_nhan,
+                $ghi_chu,
+                $tong_tien,
+                $phuong_thuc_thanh_toan_id,
+                $ngay_dat,
+                $ma_don_hang,
+                $trang_thai_id
+            );
             // lấy thông tin giỏ hàng của người dùng
             $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
 
             // lưu sản phẩm vào chi tiết đơn hàng
-            if($donHang){
+            if ($donHang) {
                 // lấy ra toàn bộ sản phẩm trong giỏ hàng   
                 $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
                 // var_dump($donHang); die;
 
                 // thêm từng sản phẩm từ giỏ hàng vào bảng chi tiết đơn hàng
-                foreach($chiTietGioHang as $item ){
+                foreach ($chiTietGioHang as $item) {
                     $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham']; //ưu tiên đơn giá sẽ lấy giá khuyến mãi
                     $this->modelDonHang->addChiTietDonHang(
-                    $donHang, // id đơn hàng vừa tạo
-                    $item['san_pham_id'],
-                    $donGia,
-                    $item['so_luong'],
-                    $donGia *$item['so_luong']
+                        $donHang, // id đơn hàng vừa tạo
+                        $item['san_pham_id'],
+                        $donGia,
+                        $item['so_luong'],
+                        $donGia * $item['so_luong']
                     );
                 }
                 // xóa toàn bộ thông tin chi tiết giỏ hàng
@@ -209,9 +332,9 @@ class HomeController
                 // chuyển hướng về trang lịch sử mua hàng
                 header("Location: " . BASE_URL . '?act=lich-su-mua-hang');
                 exit;
-                    
-            } else{
-                var_dump('lỗi đặt hàng vui lòng thử lại sau');die;
+            } else {
+                var_dump('lỗi đặt hàng vui lòng thử lại sau');
+                die;
             }
         }
     }
