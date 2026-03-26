@@ -101,10 +101,4 @@ class GioHang
     //             ':gio_hang_id' => $gio_hang_id,
     //             ':san_pham_id' => $san_pham_id
     //         ]);
-
-    //         return $stmt->fetch();
-    //     } catch (Exception $e) {
-    //         echo "Lỗi" . $e->getMessage();
-    //     }
-    // }
 }
