@@ -78,6 +78,63 @@ class HomeController
         }
     }
 
+    public function register()
+    {
+        $modelTaiKhoan = new TaiKhoan();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $email = $_POST['email'];
+
+            // check email
+            if ($modelTaiKhoan->findEmail($email)) {
+                echo "Email đã tồn tại";
+                exit();
+            }
+
+            // check password
+            if ($_POST['mat_khau'] !== $_POST['confirm_mat_khau']) {
+                echo "Mật khẩu không khớp";
+                exit();
+            }
+
+            // upload file
+            $file = $_FILES['anh_dai_dien'];
+            $file_name = time() . "_" . $file['name'];
+            move_uploaded_file($file['tmp_name'], "uploads/" . $file_name);
+
+            $data = [
+                'ho_ten' => $_POST['ho_ten'],
+                'anh_dai_dien' => $file_name,
+                'ngay_sinh' => $_POST['ngay_sinh'],
+                'email' => $_POST['email'],
+                'so_dien_thoai' => $_POST['so_dien_thoai'],
+                'gioi_tinh' => $_POST['gioi_tinh'],
+                'dia_chi' => $_POST['dia_chi'],
+                'mat_khau' => password_hash($_POST['mat_khau'], PASSWORD_DEFAULT),
+                'chuc_vu_id' => 2,
+                'trang_thai' => 1,
+            ];
+
+            $modelTaiKhoan->create($data);
+
+            header("Location:?act=login");
+            exit();
+        }
+
+        require_once './views/auth/formRegister.php';
+    }
+
+    // LOGOUT
+    public function logout()
+    {
+        unset($_SESSION['user']);
+        session_destroy();
+
+        header("Location: " . BASE_URL . "?act=login");
+        exit;
+    }
+
     public function addGioHang()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -191,47 +248,40 @@ class HomeController
                 $ma_don_hang,
                 $trang_thai_id
             );
-            // var_dump('Thêm thành công');
-            // die;
-
+            // lấy thông tin giỏ hàng của người dùng
             $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
 
-            // lưu sản phẩm vào chi tiết đơn háng
+            // lưu sản phẩm vào chi tiết đơn hàng
             if ($donHang) {
-                // lấy ra toàn bộ sản phẩm trong giỏ hàng
+                // lấy ra toàn bộ sản phẩm trong giỏ hàng   
                 $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+                // var_dump($donHang); die;
 
-                // têm từng sản phẩm từ giỏi hàng vàoo bảng chi tiết đơn hàng
+                // thêm từng sản phẩm từ giỏ hàng vào bảng chi tiết đơn hàng
                 foreach ($chiTietGioHang as $item) {
-                    $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
+                    $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham']; //ưu tiên đơn giá sẽ lấy giá khuyến mãi
                     $this->modelDonHang->addChiTietDonHang(
-                        $donHang,
+                        $donHang, // id đơn hàng vừa tạo
                         $item['san_pham_id'],
                         $donGia,
                         $item['so_luong'],
-                        $donGia * $item['so_luong'] // thanh tien
+                        $donGia * $item['so_luong']
                     );
                 }
-
-
-                // sau khi thêm xog tiến hành xóa
-                // xóa toàn bộ sản phẩm trong chi tiết giỏ hàng
+                // xóa toàn bộ thông tin chi tiết giỏ hàng
                 $this->modelGioHang->clearDetailGioHang($gioHang['id']);
-
                 // xóa thông tin giỏ hàng người dùng
                 $this->modelGioHang->clearGioHang($tai_khoan_id);
 
-
                 // chuyển hướng về trang lịch sử mua hàng
-                header('Location:' . BASE_URL . '?act=lich-su-mua-hang');
-                exit();
+                header("Location: " . BASE_URL . '?act=lich-su-mua-hang');
+                exit;
             } else {
-                var_dump('Thêm đơn hàng thất bại');
+                var_dump('lỗi đặt hàng vui lòng thử lại sau');
                 die;
             }
         }
     }
-
 
     public function lichSuMuaHang()
     {

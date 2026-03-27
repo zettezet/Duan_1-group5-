@@ -26,16 +26,19 @@ match ($act) {
     // route
     '/' => (new HomeController())->home(),
 
-    'chi-tiet-san-pham'      => (new HomeController())->chiTietSanPham(),
-    'them-gio-hang'          => (new HomeController())->addGioHang(),
-    'gio-hang'               => (new HomeController())->GioHang(),
-    'thanh-toan'             => (new HomeController())->ThanhToan(),
-    'xu-ly-thanh-toan'       => (new HomeController())->postThanhToan(),
-    'lich-su-mua-hang'       => (new HomeController())->lichSuMuaHang(),
-    'chi-tiet-mua-hang'      => (new HomeController())->chiTietMuaHang(),
-    'huy-don-hang'           => (new HomeController())->huyDonHang(),
+    'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
+    'them-gio-hang' => (new HomeController())->addGioHang(),
+    'gio-hang' => (new HomeController())->GioHang(),
+    'thanh-toan' => (new HomeController())->ThanhToan(),
+    'xu-ly-thanh-toan' => (new HomeController())->postThanhToan(),
+    'lich-su-mua-hang' => (new HomeController())->lichSuMuaHang(),
+    'chi-tiet-mua-hang' => (new HomeController())->chiTietMuaHang(),
+    'huy-don-hang' => (new HomeController())->huyDonHang(),
+
 
     // auth
-    'login'                  => (new HomeController())->formLogin(),
-    'check-login'            => (new HomeController())->postLogin(),
+    'login' => (new HomeController())->formLogin(),
+    'register' => (new HomeController())->register(),
+    'logout' => (new HomeController())->logout(),
+    'check-login' => (new HomeController())->postLogin(),
 };

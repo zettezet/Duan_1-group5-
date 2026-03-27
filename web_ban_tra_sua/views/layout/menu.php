@@ -105,6 +105,8 @@
                                             <?php } else { ?>
                                                 <li><a href="my-account.html">Tài khoản của tôi</a></li>
                                                 <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Đơn hàng</a></li>
+                                                <li><a href="<?= BASE_URL . '?act=logout' ?>">Đăng xuất</a></li>
+
                                             <?php } ?>
                                         </ul>
                                     </li>

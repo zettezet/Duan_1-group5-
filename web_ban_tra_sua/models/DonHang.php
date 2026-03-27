@@ -33,6 +33,7 @@ class DonHang
             echo "Error: " . $e->getMessage();
         }
     }
+
     public function addChiTietDonHang($donHangId, $sanPhamId, $donGia, $soLuong, $thanhTien)
     {
         try {
@@ -50,6 +51,7 @@ class DonHang
 
             return true;
         } catch (Exception $e) {
+            echo "Lỗi " . $e->getMessage();
             echo "Error: " . $e->getMessage();
         }
     }
