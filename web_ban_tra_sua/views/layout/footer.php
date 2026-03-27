@@ -14,12 +14,13 @@
                          <div class="widget-title">
                              <div class="widget-logo">
                                  <a href="index.html">
-                                     <img src="assets/img/logo/logo.png" alt="brand logo">
+                                     <img src="assets/img/logo/logo5.png" alt="brand logo">
                                  </a>
                              </div>
                          </div>
                          <div class="widget-body">
-                             <p>We are a team of designers and developers that create high quality wordpress, shopify, Opencart </p>
+                             <p>We are a passionate team dedicated to bringing you the best milk tea experience.
+                                 From premium ingredients to creative flavors, we deliver quality drinks with love and care. </p>
                          </div>
                      </div>
                  </div>
@@ -29,9 +30,9 @@
                          <div class="widget-body">
                              <address class="contact-block">
                                  <ul>
-                                     <li><i class="pe-7s-home"></i> 4710-4890 Breckinridge USA</li>
-                                     <li><i class="pe-7s-mail"></i> <a href="mailto:demo@plazathemes.com">demo@yourdomain.com </a></li>
-                                     <li><i class="pe-7s-call"></i> <a href="tel:(012)800456789987">(012) 800 456 789-987</a></li>
+                                     <li><i class="pe-7s-home"></i> 13 Trịnh Văn Bô, Nam Từ Liêm, Hà Nội</li>
+                                     <li><i class="pe-7s-mail"></i> <a href="mailto:demo@plazathemes.com">lumiteagr5@fpt.edu.com </a></li>
+                                     <li><i class="pe-7s-call"></i> <a href="tel:(012)800456789987">(84+) 456 789-987</a></li>
                                  </ul>
                              </address>
                          </div>
@@ -94,7 +95,7 @@
              <div class="row">
                  <div class="col-12">
                      <div class="copyright-text text-center">
-                         <p>&copy; 2022 <b>Corano</b> Made with <i class="fa fa-heart text-danger"></i> by <a href="https://hasthemes.com/"><b>HasThemes</b></a></p>
+                         <p>&copy; 2022 <b>LumiTea</b> Made with <i class="fa fa-heart text-danger"></i> by <a href="https://hasthemes.com/"><b>Group 5</b></a></p>
                      </div>
                  </div>
              </div>

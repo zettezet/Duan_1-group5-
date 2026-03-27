@@ -298,8 +298,8 @@
                  <div class="col-12">
                      <!-- section title start -->
                      <div class="section-title text-center">
-                         <h2 class="title">featured products</h2>
-                         <p class="sub-title">Add featured products to weekly lineup</p>
+                         <h2 class="title">SẢN PHẨM CỦA CHÚNG TÔI</h2>
+                         <p class="sub-title">Chúng tôi đảm bảo mọi thứ bạn chọn có chất lượng tốt nhất</p>
                      </div>
                      <!-- section title start -->
                  </div>
@@ -318,9 +318,7 @@
                                      <div class="product-label new">
                                          <span>new</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>10%</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -369,11 +367,9 @@
                                  </a>
                                  <div class="product-badge">
                                      <div class="product-label new">
-                                         <span>sale</span>
-                                     </div>
-                                     <div class="product-label discount">
                                          <span>new</span>
                                      </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -472,11 +468,9 @@
                                  </a>
                                  <div class="product-badge">
                                      <div class="product-label new">
-                                         <span>sale</span>
+                                         <span>new</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>15%</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -527,9 +521,7 @@
                                      <div class="product-label new">
                                          <span>new</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>20%</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -580,9 +572,7 @@
                                      <div class="product-label new">
                                          <span>new</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>10%</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -633,9 +623,7 @@
                                      <div class="product-label new">
                                          <span>sale</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>new</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -734,11 +722,9 @@
                                  </a>
                                  <div class="product-badge">
                                      <div class="product-label new">
-                                         <span>sale</span>
+                                         <span>new</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>15%</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
@@ -789,9 +775,7 @@
                                      <div class="product-label new">
                                          <span>new</span>
                                      </div>
-                                     <div class="product-label discount">
-                                         <span>20%</span>
-                                     </div>
+
                                  </div>
                                  <div class="button-group">
                                      <a href="wishlist.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="pe-7s-like"></i></a>
