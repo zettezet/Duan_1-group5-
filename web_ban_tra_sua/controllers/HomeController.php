@@ -178,27 +178,37 @@ class HomeController
 
             //Thêm thông tin vào db
 
-           $donHang = $this->modelDonHang->addDonHang($tai_khoan_id, $ten_nguoi_nhan, $email_nguoi_nhan,
-             $sdt_nguoi_nhan, $dia_chi_nguoi_nhan, $ghi_chu, $tong_tien,
-              $phuong_thuc_thanh_toan_id, $ngay_dat, $ma_don_hang, $trang_thai_id);
+            $donHang = $this->modelDonHang->addDonHang(
+                $tai_khoan_id,
+                $ten_nguoi_nhan,
+                $email_nguoi_nhan,
+                $sdt_nguoi_nhan,
+                $dia_chi_nguoi_nhan,
+                $ghi_chu,
+                $tong_tien,
+                $phuong_thuc_thanh_toan_id,
+                $ngay_dat,
+                $ma_don_hang,
+                $trang_thai_id
+            );
             // lấy thông tin giỏ hàng của người dùng
             $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
 
             // lưu sản phẩm vào chi tiết đơn hàng
-            if($donHang){
+            if ($donHang) {
                 // lấy ra toàn bộ sản phẩm trong giỏ hàng   
                 $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
                 // var_dump($donHang); die;
 
                 // thêm từng sản phẩm từ giỏ hàng vào bảng chi tiết đơn hàng
-                foreach($chiTietGioHang as $item ){
+                foreach ($chiTietGioHang as $item) {
                     $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham']; //ưu tiên đơn giá sẽ lấy giá khuyến mãi
                     $this->modelDonHang->addChiTietDonHang(
-                    $donHang, // id đơn hàng vừa tạo
-                    $item['san_pham_id'],
-                    $donGia,
-                    $item['so_luong'],
-                    $donGia *$item['so_luong']
+                        $donHang, // id đơn hàng vừa tạo
+                        $item['san_pham_id'],
+                        $donGia,
+                        $item['so_luong'],
+                        $donGia * $item['so_luong']
                     );
                 }
                 // xóa toàn bộ thông tin chi tiết giỏ hàng
@@ -209,9 +219,9 @@ class HomeController
                 // chuyển hướng về trang lịch sử mua hàng
                 header("Location: " . BASE_URL . '?act=lich-su-mua-hang');
                 exit;
-                    
-            } else{
-                var_dump('lỗi đặt hàng vui lòng thử lại sau');die;
+            } else {
+                var_dump('lỗi đặt hàng vui lòng thử lại sau');
+                die;
             }
         }
     }
