@@ -28,38 +28,63 @@
          <div class="container" style="max-width: 40vw">
              <div class="member-area-from-wrap">
                  <div class="row">
-                     <!-- Login Content Start -->
+                     <!-- Register Content Start -->
                      <div class="col-lg-12">
-                         <div class="login-reg-form-wrap">
-                             <h5 class="text-center">ĐĂNG NHẬP</h5>
-                             <?php if (isset($_SESSION['error'])) { ?>
-                                 <p class="text-danger login-box-msg text-center"><?= $_SESSION['error'] ?></p>
-                             <?php } else { ?>
-                                 <p class="login-box-msg text-center">Vui lòng đăng nhập</p>
-                             <?php } ?>
-                             <form action="<?= BASE_URL . '?act=check-login' ?>" method="post">
+                         <div class="login-reg-form-wrap sign-up-form">
+                             <h5>Singup Form</h5>
+                             <form action="<?= BASE_URL . '?act=register' ?>" method="post" enctype="multipart/form-data">
                                  <div class="single-input-item">
-                                     <input type="email" placeholder="Email or Username" name="email" required />
+                                     <label for="">Họ tên</label>
+                                     <input type="text" name="ho_ten" placeholder="Full Name" required />
                                  </div>
                                  <div class="single-input-item">
-                                     <input type="password" placeholder="Enter your Password" name="password" required />
+                                     <label for="">avatar</label>
+                                     <input type="file" name="anh_dai_dien" required />
                                  </div>
                                  <div class="single-input-item">
-                                     <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
-                                         <a href="#" class="forget-pwd">Quên mật khẩu?</a>
-                                         <a href="<?= BASE_URL . '?act=register' ?>" class="forget-pwd">Đăng ký?</a>
+                                     <label for="">Ngày sinh</label>
+                                     <input type="date" name="ngay_sinh" required />
+                                 </div>
+                                 <div class="single-input-item">
+                                     <label for="">Email</label>
+                                     <input type="email" name="email" placeholder="Email" required />
+                                 </div>
+                                 <div class="single-input-item">
+                                     <label for="">Số điện thoại</label>
+                                     <input type="text" name="so_dien_thoai" placeholder="số điện thoại" required />
+                                 </div>
+                                 <div class="single-input-item">
+                                     <label for="">Giới tính</label>
+                                     <select name="gioi_tinh" required>
+                                         <option value="1">Nam</option>
+                                         <option value="0">Nữ</option>
+                                         <option value="2">Khác</option>
+                                     </select>
+                                 </div>
+                                 <div class="single-input-item">
+                                     <label for="">Địa chỉ</label>
+                                     <input type="text" name="dia_chi" placeholder="Địa chỉ" required />
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-lg-6">
+                                         <div class="single-input-item">
+                                             <label for="">Mật khẩu</label>
+                                             <input type="password" name="mat_khau" placeholder="Enter your Password" required />
+                                         </div>
+                                     </div>
+                                     <div class="col-lg-6">
+                                         <div class="single-input-item">
+                                             <label for="">Nhập lại mật khẩu</label>
+                                             <input type="password" name="confirm_mat_khau" placeholder="Repeat your Password" required />
+                                         </div>
                                      </div>
                                  </div>
                                  <div class="single-input-item">
-                                     <button class="btn btn-sqr">Đăng nhập</button>
+                                     <button class="btn btn-sqr">Register</button>
                                  </div>
                              </form>
                          </div>
                      </div>
-                     <!-- Login Content End -->
-
-
-
                  </div>
              </div>
          </div>

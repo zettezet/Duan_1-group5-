@@ -78,6 +78,63 @@ class HomeController
         }
     }
 
+    public function register()
+    {
+        $modelTaiKhoan = new TaiKhoan();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $email = $_POST['email'];
+
+            // check email
+            if ($modelTaiKhoan->findEmail($email)) {
+                echo "Email đã tồn tại";
+                exit();
+            }
+
+            // check password
+            if ($_POST['mat_khau'] !== $_POST['confirm_mat_khau']) {
+                echo "Mật khẩu không khớp";
+                exit();
+            }
+
+            // upload file
+            $file = $_FILES['anh_dai_dien'];
+            $file_name = time() . "_" . $file['name'];
+            move_uploaded_file($file['tmp_name'], "uploads/" . $file_name);
+
+            $data = [
+                'ho_ten' => $_POST['ho_ten'],
+                'anh_dai_dien' => $file_name,
+                'ngay_sinh' => $_POST['ngay_sinh'],
+                'email' => $_POST['email'],
+                'so_dien_thoai' => $_POST['so_dien_thoai'],
+                'gioi_tinh' => $_POST['gioi_tinh'],
+                'dia_chi' => $_POST['dia_chi'],
+                'mat_khau' => password_hash($_POST['mat_khau'], PASSWORD_DEFAULT),
+                'chuc_vu_id' => 2,
+                'trang_thai' => 1,
+            ];
+
+            $modelTaiKhoan->create($data);
+
+            header("Location:?act=login");
+            exit();
+        }
+
+        require_once './views/auth/formRegister.php';
+    }
+
+    // LOGOUT
+    public function logout()
+    {
+        unset($_SESSION['user']);
+        session_destroy();
+
+        header("Location: " . BASE_URL . "?act=login");
+        exit;
+    }
+
     public function addGioHang()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
