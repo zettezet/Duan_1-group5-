@@ -1,0 +1,14 @@
+/* FORCE APPLY (override mạnh) */
+
+:root {
+    --main-color: #f8c8dc;
+    --accent-color: #f6a192;
+    --bg-color: #fff9f5;
+    --text-color: #6b4f4f;
+}
+
+
+/* TESTIMONIAL */
+.lumitea-testimonial {
+    background: #fff0f5 !important;
+}
