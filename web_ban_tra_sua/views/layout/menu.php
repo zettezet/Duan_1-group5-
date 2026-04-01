@@ -46,7 +46,7 @@
                     <!-- start logo area -->
                     <div class="col-lg-2">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="<?= BASE_URL ?>">
                                 <img src="assets/img/logo/logo5.png" alt="Brand Logo">
                             </a>
                         </div>
@@ -63,13 +63,21 @@
                                         <li> <a href="<?= BASE_URL ?>">Trang chủ </a>
                                         </li>
 
-                                        <li><a href="blog-left-sidebar.html">Sản phẩm <i class="fa fa-angle-down"></i></a>
+                                        <li><a href="<?= BASE_URL . '?act=san-pham' ?>">Sản phẩm</a>
                                             <ul class="dropdown">
-                                                <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
+                                                <li><a href="<?= BASE_URL . '?act=san-pham' ?>">Tất cả</a></li>
+                                                <?php
+                                                $conn = connectDB();
+                                                $stmt = $conn->prepare('SELECT * FROM danh_mucs');
+                                                $stmt->execute();
+                                                $danhMucs = $stmt->fetchAll();
+                                                foreach ($danhMucs as $dm) : ?>
+                                                    <li><a href="<?= BASE_URL . '?act=san-pham&danh_muc_id=' . $dm['id'] ?>"><?= htmlspecialchars($dm['ten_danh_muc'], ENT_QUOTES) ?></a></li>
+                                                <?php endforeach; ?>
                                             </ul>
                                         </li>
-                                        <li><a href="#">Giới thiệu</a></li>
-                                        <li><a href="#">Liên hệ</a></li>
+                                        <li><a href="<?= BASE_URL . '?act=gioi-thieu' ?>">Giới thiệu</a></li>
+                                        <li><a href="<?= BASE_URL . '?act=lien-he' ?>">Liên hệ</a></li>
                                     </ul>
                                 </nav>
                                 <!-- main menu navbar end -->
@@ -83,8 +91,9 @@
                         <div class="header-right d-flex align-items-center justify-content-xl-between justify-content-lg-end">
                             <div class="header-search-container">
                                 <button class="search-trigger d-xl-none d-lg-block"><i class="pe-7s-search"></i></button>
-                                <form class="header-search-box d-lg-none d-xl-block">
-                                    <input type="text" placeholder="Nhập tên sản phẩm..." class="header-search-field">
+                                <form class="header-search-box d-lg-none d-xl-block" action="<?= BASE_URL ?>?act=tim-kiem" method="GET">
+                                    <input type="hidden" name="act" value="tim-kiem">
+                                    <input type="text" name="keyword" value="<?= htmlspecialchars($_GET['keyword'] ?? '', ENT_QUOTES) ?>" placeholder="Nhập tên sản phẩm..." class="header-search-field">
                                     <button class="header-search-btn"><i class="pe-7s-search"></i></button>
                                 </form>
                             </div>
@@ -103,7 +112,7 @@
                                             <?php if (!isset($_SESSION['user_client'])) { ?>
                                                 <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
                                             <?php } else { ?>
-                                                <li><a href="my-account.html">Tài khoản của tôi</a></li>
+                                                <li><a href="<?= BASE_URL . '?act=thong-tin-tai-khoan' ?>">Tài khoản của tôi</a></li>
                                                 <li><a href="<?= BASE_URL . '?act=lich-su-mua-hang' ?>">Đơn hàng</a></li>
                                                 <li><a href="<?= BASE_URL . '?act=logout' ?>">Đăng xuất</a></li>
 
