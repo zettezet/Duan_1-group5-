@@ -476,4 +476,62 @@ class HomeController
     {
         require_once './views/contact.php';
     }
+
+    public function xoaKhoiGioHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            $san_pham_id = $_GET['id'] ?? $_POST['san_pham_id'] ?? 0;
+
+            if ($san_pham_id) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+
+                if ($gioHang) {
+                    $this->modelGioHang->deleteDetailGioHang($gioHang['id'], $san_pham_id);
+                }
+            }
+
+            // Nếu là AJAX request, trả về JSON
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                echo json_encode(['success' => true]);
+                exit();
+            } else {
+                // Nếu là GET request, redirect về trang giỏ hàng
+                header('Location: ' . BASE_URL . '?act=gio-hang');
+                exit();
+            }
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                echo json_encode(['success' => false, 'message' => 'Bạn chưa đăng nhập']);
+            } else {
+                header('Location: ' . BASE_URL . '?act=login');
+            }
+            exit();
+        }
+    }
+
+    public function capNhatSoLuongGioHang()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
+            $san_pham_id = $_POST['san_pham_id'] ?? 0;
+            $so_luong = $_POST['so_luong'] ?? 1;
+
+            if ($san_pham_id && $so_luong > 0) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+
+                if ($gioHang) {
+                    $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $so_luong);
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Không tìm thấy giỏ hàng']);
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Yêu cầu không hợp lệ']);
+        }
+        exit();
+    }
 }

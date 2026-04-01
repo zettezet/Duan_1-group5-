@@ -123,7 +123,24 @@
                                     <li>
                                         <a href="#" class="minicart-btn">
                                             <i class="pe-7s-shopbag"></i>
-                                            <div class="notification">2</div>
+                                            <?php
+                                            $soLuongTong = 0;
+                                            if (isset($_SESSION['user_client'])) {
+                                                $modelTaiKhoan = new TaiKhoan();
+                                                $modelGioHang = new GioHang();
+                                                $user = $modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                                                if ($user) {
+                                                    $gioHang = $modelGioHang->getGioHangFromUser($user['id']);
+                                                    if ($gioHang) {
+                                                        $chiTietGioHang = $modelGioHang->detailGioHang($gioHang['id']);
+                                                        foreach ($chiTietGioHang as $item) {
+                                                            $soLuongTong += $item['so_luong'];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                            <div class="notification"><?= $soLuongTong ?></div>
                                         </a>
                                     </li>
                                 </ul>
