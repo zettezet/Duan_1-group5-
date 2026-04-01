@@ -9,69 +9,92 @@
             <div class="minicart-content-box">
                 <div class="minicart-item-wrapper">
                     <ul>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-1.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$100.00</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
-                        <li class="minicart-item">
-                            <div class="minicart-thumb">
-                                <a href="product-details.html">
-                                    <img src="assets/img/cart/cart-2.jpg" alt="product">
-                                </a>
-                            </div>
-                            <div class="minicart-content">
-                                <h3 class="product-name">
-                                    <a href="product-details.html">Dozen White Botanical Linen Dinner Napkins</a>
-                                </h3>
-                                <p>
-                                    <span class="cart-quantity">1 <strong>&times;</strong></span>
-                                    <span class="cart-price">$80.00</span>
-                                </p>
-                            </div>
-                            <button class="minicart-remove"><i class="pe-7s-close"></i></button>
-                        </li>
+                        <?php
+                        $tongTien = 0;
+                        if (isset($_SESSION['user_client'])) {
+                            $modelTaiKhoan = new TaiKhoan();
+                            $modelGioHang = new GioHang();
+                            $modelSanPham = new SanPham();
+
+                            $user = $modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                            if ($user) {
+                                $gioHang = $modelGioHang->getGioHangFromUser($user['id']);
+                                if ($gioHang) {
+                                    $chiTietGioHang = $modelGioHang->detailGioHang($gioHang['id']);
+                                    foreach ($chiTietGioHang as $item) {
+                                        $sanPham = $modelSanPham->getDetailSanPham($item['san_pham_id']);
+                                        if ($sanPham) {
+                                            $gia = $sanPham['gia_khuyen_mai'] ?? $sanPham['gia_san_pham'];
+                                            $thanhTien = $gia * $item['so_luong'];
+                                            $tongTien += $thanhTien;
+                        ?>
+                                            <li class="minicart-item">
+                                                <div class="minicart-thumb">
+                                                    <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>">
+                                                        <img src="<?= $sanPham['hinh_anh'] ?>" alt="product">
+                                                    </a>
+                                                </div>
+                                                <div class="minicart-content">
+                                                    <h3 class="product-name">
+                                                        <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'] ?>"><?= htmlspecialchars($sanPham['ten_san_pham'], ENT_QUOTES) ?></a>
+                                                    </h3>
+                                                    <p>
+                                                        <span class="cart-quantity"><?= $item['so_luong'] ?> <strong>&times;</strong></span>
+                                                        <span class="cart-price"><?= formatPrice($gia) ?>đ</span>
+                                                    </p>
+                                                </div>
+                                                <button class="minicart-remove" onclick="removeFromCart(<?= $item['san_pham_id'] ?>)"><i class="pe-7s-close"></i></button>
+                                            </li>
+                        <?php
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        ?>
                     </ul>
                 </div>
 
                 <div class="minicart-pricing-box">
                     <ul>
                         <li>
-                            <span>sub-total</span>
-                            <span><strong>$300.00</strong></span>
-                        </li>
-                        <li>
-                            <span>Eco Tax (-2.00)</span>
-                            <span><strong>$10.00</strong></span>
-                        </li>
-                        <li>
-                            <span>VAT (20%)</span>
-                            <span><strong>$60.00</strong></span>
-                        </li>
-                        <li class="total">
-                            <span>total</span>
-                            <span><strong>$370.00</strong></span>
+                            <span>Tổng tiền</span>
+                            <span><strong><?= formatPrice($tongTien) ?>đ</strong></span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="minicart-button">
                     <a href="<?= BASE_URL . '?act=gio-hang' ?>"><i class="fa fa-shopping-cart"></i> Xem giỏ hàng</a>
-                    <a href="<?= BASE_URL . '?act=thanh-toan' ?>"><i class="fa fa-share"></i> thanh toán</a>
+                    <a href="<?= BASE_URL . '?act=thanh-toan' ?>"><i class="fa fa-share"></i> Thanh toán</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function removeFromCart(sanPhamId) {
+        if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+            fetch('<?= BASE_URL ?>?act=xoa-khoi-gio-hang', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'san_pham_id=' + sanPhamId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // Reload trang để cập nhật giỏ hàng
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xóa sản phẩm');
+                });
+        }
+    }
+</script>
