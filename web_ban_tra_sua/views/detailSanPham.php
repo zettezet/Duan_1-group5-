@@ -138,19 +138,32 @@
                                                     </div>
                                                 </div>
                                             <?php endforeach; ?>
-                                            <form action="#" class="review-form">
+
+                                            <?php if (isset($_GET['error'])): ?>
+                                                <div class="alert alert-danger mt-2">Nội dung bình luận không được để trống.</div>
+                                            <?php endif; ?>
+                                            <?php if (isset($_GET['success'])): ?>
+                                                <div class="alert alert-success mt-2">Bình luận đã được gửi thành công.</div>
+                                            <?php endif; ?>
+
+                                            <form action="<?= BASE_URL . '?act=them-binh-luan' ?>" method="post" class="review-form">
+                                                <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
                                                 <div class="form-group row">
                                                     <div class="col">
                                                         <label class="col-form-label"><span class="text-danger"></span>
                                                             Nội dung bình luận </label>
-                                                        <textarea class="form-control" required></textarea>
+                                                        <textarea name="noi_dung" class="form-control" rows="4" required></textarea>
 
                                                     </div>
                                                 </div>
 
 
                                                 <div class="buttons">
-                                                    <button class="btn btn-sqr" type="submit">Bình luận</button>
+                                                    <?php if (isset($_SESSION['user_client'])): ?>
+                                                        <button class="btn btn-sqr" type="submit">Bình luận</button>
+                                                    <?php else: ?>
+                                                        <div class="text-muted">Vui lòng <a href="<?= BASE_URL . '?act=login' ?>">đăng nhập</a> để bình luận.</div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </form> <!-- end of review-form -->
                                         </div>
@@ -199,12 +212,12 @@
                                     $tinhNgay = $ngayHienTai->diff($ngayNhap);
 
                                     if ($tinhNgay->days <= 7) {
-                                        ?>
+                                    ?>
                                         <div class="product-label new">
                                             <span>Mới</span>
                                         </div>
 
-                                        <?php
+                                    <?php
                                     }
                                     ?>
                                     <?php if ($sanPham['gia_khuyen_mai']) { ?>
