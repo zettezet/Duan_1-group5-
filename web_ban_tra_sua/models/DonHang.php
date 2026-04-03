@@ -61,7 +61,10 @@ class DonHang
     public function getDonHangFromUser($tai_khoan_id)
     {
         try {
-            $sql = "SELECT * FROM don_hangs WHERE tai_khoan_id = :tai_khoan_id";
+            $sql = "SELECT * 
+                FROM don_hangs 
+                WHERE tai_khoan_id = :tai_khoan_id
+                ORDER BY id DESC";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
@@ -107,7 +110,7 @@ class DonHang
     public function getDonHangById($id)
     {
         try {
-            $sql = "SELECT * FROM don_hangs WHERE id = :id";
+            $sql = "SELECT * FROM don_hangs ORDER BY id DESC";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
@@ -123,16 +126,8 @@ class DonHang
     public function getChiTietDonHangByDonHangId($donHangId)
     {
         try {
-            $sql = "SELECT 
-                            chi_tiet_don_hangs.*,
-                            san_phams.ten_san_pham,
-                            san_phams.hinh_anh
-                     FROM 
-                             chi_tiet_don_hangs
-                     JOIN 
-                             san_phams ON chi_tiet_don_hangs.san_pham_id = san_phams.id
-                     WHERE 
-                             chi_tiet_don_hangs.don_hang_id = :don_hang_id";
+            $sql = "SELECT chi_tiet_don_hangs.*, san_phams.ten_san_pham, san_phams.hinh_anh FROM chi_tiet_don_hangs JOIN 
+            san_phams ON chi_tiet_don_hangs.san_pham_id = san_phams.id WHERE chi_tiet_don_hangs.don_hang_id = :don_hang_id ORDER BY chi_tiet_don_hangs.id DESC";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
