@@ -335,7 +335,8 @@ class HomeController
             $tong_tien = $_POST['tong_tien'];
             $phuong_thuc_thanh_toan_id = $_POST['phuong_thuc_thanh_toan_id'];
 
-            $ngay_dat = date('Y-m-d');
+            // Use full date+time so order history shows exact placement time
+            $ngay_dat = date('Y-m-d H:i:s');
             $trang_thai_id = 1;
 
             $ma_don_hang = 'DH' . rand(1000, 9999);

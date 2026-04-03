@@ -20,7 +20,7 @@
                             <label class="form-label">Nội dung</label>
                             <textarea class="form-control" name="noi_dung" rows="6" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Gửi yêu cầu</button>
+                        <button type="submit" class="btn btn-sqr">Gửi liên hệ</button>
                     </form>
                     <div class="mt-4">
                         <p><strong>Địa chỉ:</strong> 123 Đường Trà Sữa, Quận 1, TP.HCM</p>

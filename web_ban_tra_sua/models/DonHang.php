@@ -64,7 +64,7 @@ class DonHang
             $sql = "SELECT * 
                 FROM don_hangs 
                 WHERE tai_khoan_id = :tai_khoan_id
-                ORDER BY id DESC";
+                ORDER BY ngay_dat DESC, id DESC";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
@@ -110,7 +110,7 @@ class DonHang
     public function getDonHangById($id)
     {
         try {
-            $sql = "SELECT * FROM don_hangs ORDER BY id DESC";
+            $sql = "SELECT * FROM don_hangs WHERE id = :id";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([

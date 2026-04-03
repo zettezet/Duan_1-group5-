@@ -129,7 +129,7 @@ CREATE TABLE `don_hangs` (
   `email_nguoi_nhan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `sdt_nguoi_nhan` varchar(15) NOT NULL,
   `dia_chi_nguoi_nhan` text NOT NULL,
-  `ngay_dat` date NOT NULL,
+  `ngay_dat` datetime NOT NULL,
   `tong_tien` decimal(10,2) NOT NULL,
   `ghi_chu` text,
   `phuong_thuc_thanh_toan_id` int NOT NULL,

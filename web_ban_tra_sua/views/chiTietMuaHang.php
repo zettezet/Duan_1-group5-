@@ -102,7 +102,7 @@ require_once 'views/layout/header.php'; ?>
                                     </tr>
                                     <tr>
                                         <th>Ngày đặt:</th>
-                                        <th><?= $donHang['ngay_dat'] ?></th>
+                                        <th><?= formatDateTimeVn($donHang['ngay_dat']) ?></th>
                                     </tr>
                                     <tr>
                                         <th>Ghi chú:</th>

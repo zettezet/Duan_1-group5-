@@ -49,7 +49,7 @@
                                     <?php foreach ($donHangs as $donHang): ?>
                                         <tr>
                                             <td class="text-center"><?= $donHang['ma_don_hang'] ?></td>
-                                            <td><?= date('d-m-Y H:i:s', strtotime($donHang['ngay_dat'])) ?></td>
+                                            <td><?= formatDateTimeVn($donHang['ngay_dat']) ?></td>
                                             <td><?= formatPrice($donHang['tong_tien']) . 'đ' ?></td>
                                             <td><?= $phuongThucThanhToan[$donHang['phuong_thuc_thanh_toan_id']]  ?></td>
                                             <td><?= $trangThaiDonHang[$donHang['trang_thai_id']] ?></td>

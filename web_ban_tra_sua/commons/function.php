@@ -77,6 +77,28 @@ function formatDate($date)
     return date('d-m-Y', strtotime($date));
 }
 
+function formatDateTimeVn($datetime)
+{
+    if (!$datetime) {
+        return '';
+    }
+
+    // Nếu ngày giờ đã có dạng Y-m-d H:i:s
+    $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
+    if ($dateTime === false) {
+        // fallback với Y-m-d
+        $dateTime = DateTime::createFromFormat('Y-m-d', $datetime);
+    }
+
+    if ($dateTime === false) {
+        return $datetime;
+    }
+
+    // Chỉ định múi giờ mặc định theo VN để không bị dịch
+    $dateTime->setTimezone(new DateTimeZone('Asia/Ho_Chi_Minh'));
+    return $dateTime->format('d-m-Y H:i:s');
+}
+
 function checkLoginAdmin()
 {
     if (!isset($_SESSION['user_admin'])) {
