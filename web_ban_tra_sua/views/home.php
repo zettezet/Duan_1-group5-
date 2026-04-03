@@ -99,7 +99,7 @@
                  <div class="col-sm-6">
                      <figure class="banner-statistics mt-20">
                          <a href="#">
-                             <img src="assets/img/slider/banner1.jpg" alt="product banner">
+                             <img src="assets/img/slider/Gemini_Generated_Image_pr14wjpr14wjpr14.png" alt="product banner">
                          </a>
 
                      </figure>
@@ -107,12 +107,11 @@
                  <div class="col-sm-6">
                      <figure class="banner-statistics mt-20">
                          <a href="#">
-                             <img src="assets/img/slider/banner2.jpg" alt="product banner">
+                             <img src="assets/img/slider/Gemini_Generated_Image_gxgrjvgxgrjvgxgr.png" alt="product banner">
                          </a>
 
                      </figure>
                  </div>
-
              </div>
          </div>
      </div>
