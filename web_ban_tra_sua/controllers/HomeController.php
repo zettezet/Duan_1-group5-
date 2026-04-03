@@ -115,6 +115,38 @@ class HomeController
         }
     }
 
+    public function themBinhLuan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . BASE_URL);
+            exit();
+        }
+
+        if (!isset($_SESSION['user_client'])) {
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $san_pham_id = $_POST['san_pham_id'] ?? null;
+        $noi_dung = trim($_POST['noi_dung'] ?? '');
+
+        if (!$san_pham_id || $noi_dung === '') {
+            header('Location: ' . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id . '&error=1');
+            exit();
+        }
+
+        $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+        if (!$user) {
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $this->modelSanPham->addBinhLuan($san_pham_id, $user['id'], $noi_dung);
+
+        header('Location: ' . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id . '&success=1');
+        exit();
+    }
+
     public function formLogin()
     {
         require_once './views/auth/formLogin.php';
