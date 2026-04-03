@@ -61,21 +61,26 @@
                                                     <?php } ?>
                                                 </span></td>
                                             <td class="pro-quantity">
-                                                <div class="pro-qty"><input type="text" value="<?= $sanPham['so_luong'] ?>"></div>
+                                                <div class="pro-qty">
+                                                    <input type="number" value="<?= $sanPham['so_luong'] ?>" min="1"
+                                                        onchange="updateQuantity(<?= $sanPham['san_pham_id'] ?>, this.value)">
+                                                </div>
                                             </td>
                                             <td class="pro-subtotal"><span>
                                                     <?php
-                                                    $tong_tien = 0;
-                                                    if ($sanPham['gia_san_pham']) {
-                                                        $tong_tien = $sanPham['gia_khuyen_mai'] * $sanPham['so_luong'];
-                                                    } else {
-                                                        $tong_tien = $sanPham['gia_san_pham'] * $sanPham['so_luong'];
-                                                    }
+                                                    $gia = $sanPham['gia_khuyen_mai'] ?? $sanPham['gia_san_pham'];
+                                                    $tong_tien = $gia * $sanPham['so_luong'];
                                                     $tongGioHang += $tong_tien;
                                                     echo formatPrice($tong_tien) . 'đ';
                                                     ?>
                                                 </span></td>
-                                            <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                                            <td class="pro-remove">
+                                                <a href="<?= BASE_URL . '?act=xoa-khoi-gio-hang&id=' . $sanPham['san_pham_id'] ?>"
+                                                    onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')"
+                                                    class="text-danger">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
 
@@ -131,3 +136,27 @@
 
 <?php include_once 'views/layout/miniCart.php'; ?>
 <?php include_once 'views/layout/footer.php'; ?>
+
+<script>
+    function updateQuantity(sanPhamId, soLuong) {
+        fetch('<?= BASE_URL ?>?act=cap-nhat-so-luong-gio-hang', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'san_pham_id=' + sanPhamId + '&so_luong=' + soLuong
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload(); // Reload trang để cập nhật tổng tiền
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra khi cập nhật số lượng');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi cập nhật số lượng');
+            });
+    }
+</script>

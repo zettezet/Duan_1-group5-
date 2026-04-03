@@ -21,6 +21,84 @@ class HomeController
         require_once './views/home.php';
     }
 
+    public function sanPham()
+    {
+        $listDanhMuc = $this->modelSanPham->getAllDanhMuc();
+        $danh_muc_id = $_GET['danh_muc_id'] ?? '';
+
+        if ($danh_muc_id) {
+            $listSanPham = $this->modelSanPham->getListSanPhamTheoDanhMuc($danh_muc_id);
+            $currentDanhMuc = array_filter($listDanhMuc, fn($dm) => $dm['id'] == $danh_muc_id);
+            $currentDanhMuc = reset($currentDanhMuc);
+        } else {
+            $listSanPham = $this->modelSanPham->getAllSanPham();
+            $currentDanhMuc = null;
+        }
+
+        require_once './views/products.php';
+    }
+
+    public function timKiemSanPham()
+    {
+        $keyword = trim($_GET['keyword'] ?? '');
+        if ($keyword === '') {
+            $listSanPham = $this->modelSanPham->getAllSanPham();
+        } else {
+            $listSanPham = $this->modelSanPham->searchSanPhamByName($keyword);
+        }
+        require_once './views/search.php';
+    }
+
+    public function thongTinTaiKhoan()
+    {
+        if (!isset($_SESSION['user_client'])) {
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+
+        require_once './views/userProfile.php';
+    }
+
+    public function capNhatTaiKhoan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['user_client'])) {
+            header('Location: ' . BASE_URL);
+            exit();
+        }
+
+        $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+        if (!$user) {
+            header('Location: ' . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $data = [
+            'ho_ten' => trim($_POST['ho_ten'] ?? $user['ho_ten']),
+            'so_dien_thoai' => trim($_POST['so_dien_thoai'] ?? $user['so_dien_thoai']),
+            'dia_chi' => trim($_POST['dia_chi'] ?? $user['dia_chi']),
+        ];
+
+        if (!empty($_FILES['anh_dai_dien']['name'])) {
+            $anh = $_FILES['anh_dai_dien'];
+            $fileName = time() . '_' . basename($anh['name']);
+            $uploadPath = 'uploads/' . $fileName;
+            if (move_uploaded_file($anh['tmp_name'], $uploadPath)) {
+                $data['anh_dai_dien'] = $uploadPath;
+            }
+        }
+
+        if (!empty($_POST['ngay_sinh'])) {
+            $data['ngay_sinh'] = $_POST['ngay_sinh'];
+        }
+
+        $this->modelTaiKhoan->updateTaiKhoan($user['id'], $data);
+
+        header('Location: ' . BASE_URL . '?act=thong-tin-tai-khoan&success=1');
+        exit();
+    }
+
     public function chiTietSanPham()
     {
         $id = $_GET['id_san_pham'];
@@ -387,5 +465,73 @@ class HomeController
             var_dump('Bạn chưa đăng nhập');
             die;
         }
+    }
+
+    public function gioiThieu()
+    {
+        require_once './views/about.php';
+    }
+
+    public function lienHe()
+    {
+        require_once './views/contact.php';
+    }
+
+    public function xoaKhoiGioHang()
+    {
+        if (isset($_SESSION['user_client'])) {
+            $san_pham_id = $_GET['id'] ?? $_POST['san_pham_id'] ?? 0;
+
+            if ($san_pham_id) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+
+                if ($gioHang) {
+                    $this->modelGioHang->deleteDetailGioHang($gioHang['id'], $san_pham_id);
+                }
+            }
+
+            // Nếu là AJAX request, trả về JSON
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                echo json_encode(['success' => true]);
+                exit();
+            } else {
+                // Nếu là GET request, redirect về trang giỏ hàng
+                header('Location: ' . BASE_URL . '?act=gio-hang');
+                exit();
+            }
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                echo json_encode(['success' => false, 'message' => 'Bạn chưa đăng nhập']);
+            } else {
+                header('Location: ' . BASE_URL . '?act=login');
+            }
+            exit();
+        }
+    }
+
+    public function capNhatSoLuongGioHang()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
+            $san_pham_id = $_POST['san_pham_id'] ?? 0;
+            $so_luong = $_POST['so_luong'] ?? 1;
+
+            if ($san_pham_id && $so_luong > 0) {
+                $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+                $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+
+                if ($gioHang) {
+                    $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $so_luong);
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Không tìm thấy giỏ hàng']);
+                }
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Yêu cầu không hợp lệ']);
+        }
+        exit();
     }
 }

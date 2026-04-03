@@ -52,6 +52,46 @@ class TaiKhoan
             echo "loi" . $e->getMessage();
         }
     }
+
+    public function updateTaiKhoan($id, $data)
+    {
+        try {
+            $fields = [];
+            $params = [':id' => $id];
+
+            if (isset($data['ho_ten'])) {
+                $fields[] = 'ho_ten = :ho_ten';
+                $params[':ho_ten'] = $data['ho_ten'];
+            }
+            if (isset($data['so_dien_thoai'])) {
+                $fields[] = 'so_dien_thoai = :so_dien_thoai';
+                $params[':so_dien_thoai'] = $data['so_dien_thoai'];
+            }
+            if (isset($data['dia_chi'])) {
+                $fields[] = 'dia_chi = :dia_chi';
+                $params[':dia_chi'] = $data['dia_chi'];
+            }
+            if (isset($data['anh_dai_dien'])) {
+                $fields[] = 'anh_dai_dien = :anh_dai_dien';
+                $params[':anh_dai_dien'] = $data['anh_dai_dien'];
+            }
+            if (isset($data['ngay_sinh'])) {
+                $fields[] = 'ngay_sinh = :ngay_sinh';
+                $params[':ngay_sinh'] = $data['ngay_sinh'];
+            }
+
+            if (empty($fields)) {
+                return false;
+            }
+
+            $sql = 'UPDATE tai_khoans SET ' . implode(', ', $fields) . ' WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute($params);
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
     public function findEmail($email)
     {
         try {
