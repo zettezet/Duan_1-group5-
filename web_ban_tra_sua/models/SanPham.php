@@ -78,7 +78,8 @@ class SanPham
             $sql = 'SELECT binh_luans.*, tai_khoans.ho_ten, tai_khoans.anh_dai_dien
                     FROM binh_luans
                     INNER JOIN tai_khoans ON binh_luans.tai_khoan_id = tai_khoans.id
-                    WHERE binh_luans.san_pham_id = :id
+                    WHERE binh_luans.san_pham_id = :id AND binh_luans.trang_thai = 1
+                    ORDER BY binh_luans.ngay_dang DESC
                     ';
             $stmt = $this->conn->prepare($sql);
 
@@ -87,6 +88,26 @@ class SanPham
             return $stmt->fetchAll();
         } catch (Exception $e) {
             echo "loi" . $e->getMessage();
+        }
+    }
+
+    public function addBinhLuan($san_pham_id, $tai_khoan_id, $noi_dung)
+    {
+        try {
+            $sql = 'INSERT INTO binh_luans (san_pham_id, tai_khoan_id, noi_dung, ngay_dang, trang_thai)
+                    VALUES (:san_pham_id, :tai_khoan_id, :noi_dung, :ngay_dang, :trang_thai)';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':san_pham_id' => $san_pham_id,
+                ':tai_khoan_id' => $tai_khoan_id,
+                ':noi_dung' => $noi_dung,
+                ':ngay_dang' => date('Y-m-d'),
+                ':trang_thai' => 1,
+            ]);
+            return $this->conn->lastInsertId();
+        } catch (Exception $e) {
+            echo "loi" . $e->getMessage();
+            return false;
         }
     }
 
