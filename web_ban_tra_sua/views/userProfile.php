@@ -42,7 +42,7 @@
                             <?php endif; ?>
                             <input type="file" name="anh_dai_dien" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary">Cập nhật thông tin</button>
+                        <button type="submit" class="btn btn-sqr">Lưu thay đổi</button>
                     </form>
                 </div>
             </div>

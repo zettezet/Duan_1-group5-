@@ -13,8 +13,8 @@
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="shop.html">shop</a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>">shop</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">bills</li>
                             </ul>
                         </nav>
@@ -49,7 +49,7 @@
                                     <?php foreach ($donHangs as $donHang): ?>
                                         <tr>
                                             <td class="text-center"><?= $donHang['ma_don_hang'] ?></td>
-                                            <td><?= date('d-m-Y H:i:s', strtotime($donHang['ngay_dat'])) ?></td>
+                                            <td><?= formatDateTimeVn($donHang['ngay_dat']) ?></td>
                                             <td><?= formatPrice($donHang['tong_tien']) . 'đ' ?></td>
                                             <td><?= $phuongThucThanhToan[$donHang['phuong_thuc_thanh_toan_id']]  ?></td>
                                             <td><?= $trangThaiDonHang[$donHang['trang_thai_id']] ?></td>

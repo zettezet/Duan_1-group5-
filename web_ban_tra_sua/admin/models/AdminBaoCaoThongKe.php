@@ -31,14 +31,14 @@ class AdminBaoCaoThongKe
     {
         [$in, $params] = $this->buildInClauseInts($trangThaiIds, 'st');
 
-        $sql = 'SELECT ngay_dat AS ngay,
+        $sql = 'SELECT DATE(ngay_dat) AS ngay,
                        SUM(tong_tien) AS doanh_thu,
                        COUNT(*) AS so_don
                 FROM don_hangs
-                WHERE ngay_dat BETWEEN :from_date AND :to_date
+                WHERE DATE(ngay_dat) BETWEEN :from_date AND :to_date
                   AND trang_thai_id IN (' . implode(',', $in) . ')
-                GROUP BY ngay_dat
-                ORDER BY ngay_dat';
+                GROUP BY DATE(ngay_dat)
+                ORDER BY DATE(ngay_dat)';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(array_merge($params, [
@@ -99,7 +99,7 @@ class AdminBaoCaoThongKe
                 FROM chi_tiet_don_hangs ct
                 INNER JOIN don_hangs dh ON ct.don_hang_id = dh.id
                 INNER JOIN san_phams sp ON ct.san_pham_id = sp.id
-                WHERE dh.ngay_dat BETWEEN :from_date AND :to_date
+                WHERE DATE(dh.ngay_dat) BETWEEN :from_date AND :to_date
                   AND dh.trang_thai_id IN (' . implode(',', $in) . ')
                 GROUP BY sp.id, sp.ten_san_pham
                 ORDER BY so_luong_ban DESC, doanh_thu DESC
@@ -117,4 +117,3 @@ class AdminBaoCaoThongKe
         return $stmt->fetchAll();
     }
 }
-

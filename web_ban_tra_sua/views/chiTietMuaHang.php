@@ -17,8 +17,8 @@ require_once 'views/layout/header.php'; ?>
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html"><i class="fa fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="shop.html">shop</a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>">shop</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">bill Detail</li>
                             </ul>
                         </nav>
@@ -102,7 +102,7 @@ require_once 'views/layout/header.php'; ?>
                                     </tr>
                                     <tr>
                                         <th>Ngày đặt:</th>
-                                        <th><?= $donHang['ngay_dat'] ?></th>
+                                        <th><?= formatDateTimeVn($donHang['ngay_dat']) ?></th>
                                     </tr>
                                     <tr>
                                         <th>Ghi chú:</th>
