@@ -384,8 +384,8 @@ class HomeController
                 // xóa thông tin giỏ hàng người dùng
                 $this->modelGioHang->clearGioHang($tai_khoan_id);
 
-                // chuyển hướng về trang lịch sử mua hàng
-                header("Location: " . BASE_URL . '?act=lich-su-mua-hang');
+                // chuyển hướng về trang lịch sử mua hàng và hiển thị thông báo thành công
+                header("Location: " . BASE_URL . '?act=lich-su-mua-hang&success=1');
                 exit;
             } else {
                 var_dump('lỗi đặt hàng vui lòng thử lại sau');
