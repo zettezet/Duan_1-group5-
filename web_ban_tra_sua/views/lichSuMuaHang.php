@@ -31,6 +31,9 @@
             <div class="section-bg-color">
                 <div class="row">
                     <div class="col-lg-12">
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
+                            <div class="alert alert-success">Đặt hàng thành công! Đơn hàng của bạn đã được tạo và đang chờ xác nhận.</div>
+                        <?php endif; ?>
                         <!-- Cart Table Area -->
                         <div class="cart-table table-responsive">
                             <table class="table table-bordered">

@@ -6066,36 +6066,7 @@ blockquote {
 
 
 
-/* Style cụ thể cho nút Lưu thay đổi */
-button[type="submit"], 
-.btn-save { /* Bạn nên thêm class này vào thẻ button trong HTML */
-    display: block;
-    margin: 20px auto; /* Căn giữa nút */
-    padding: 10px 30px;
-    background-color: #c29958; /* Màu vàng đồng giống màu bạn đang dùng cho focus */
-    color: #ffffff;
-    border-radius: 4px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.4s ease;
-    border: 1px solid #c29958;
-}
 
-/* Hiệu ứng khi di chuột qua (Hover) */
-button[type="submit"]:hover, 
-.btn-save:hover {
-    background-color: #a88246; /* Màu đậm hơn một chút khi hover */
-    border-color: #a88246;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Hiệu ứng khi click */
-button[type="submit"]:active, 
-.btn-save:active {
-    transform: scale(0.98);
-}
 
 
 
