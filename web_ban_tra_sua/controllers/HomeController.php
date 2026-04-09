@@ -228,7 +228,10 @@ class HomeController
 
             $modelTaiKhoan->create($data);
 
-            header("Location:?act=login");
+            $_SESSION['success'] = "Đăng ký thành công! Vui lòng đăng nhập.";
+            $_SESSION['flash'] = true;
+
+            header("Location: " . BASE_URL . "?act=login");
             exit();
         }
 
@@ -259,14 +262,32 @@ class HomeController
                     $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
                 }
 
-
-
                 $san_pham_id = $_POST['san_pham_id'];
-                $so_luong = $_POST['so_luong'];
+                $so_luong = max(1, intval($_POST['so_luong'] ?? 1));
+                $sanPham = $this->modelSanPham->getDetailSanPham($san_pham_id);
+
+                if (!$sanPham) {
+                    header('Location:' . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id . '&stock_error=1');
+                    exit();
+                }
+
+                $currentSoLuongTrongGio = 0;
+                foreach ($chiTietGioHang as $detail) {
+                    if ($detail['san_pham_id'] == $san_pham_id) {
+                        $currentSoLuongTrongGio = $detail['so_luong'];
+                        break;
+                    }
+                }
+
+                $newSoLuong = $currentSoLuongTrongGio + $so_luong;
+                if ($newSoLuong > $sanPham['so_luong']) {
+                    header('Location:' . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id . '&stock_error=1&max_qty=' . $sanPham['so_luong']);
+                    exit();
+                }
+
                 $checkSanPham = false;
                 foreach ($chiTietGioHang as $detail) {
                     if ($detail['san_pham_id'] == $san_pham_id) {
-                        $newSoLuong = $detail['so_luong'] + $so_luong;
                         $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $newSoLuong);
                         $checkSanPham = true;
                         break;
@@ -344,8 +365,26 @@ class HomeController
             $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
             $tai_khoan_id = $user['id'];
 
-            //Thêm thông tin vào db
+            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
+            $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
+            $stockErrors = [];
+            foreach ($chiTietGioHang as $item) {
+                $sanPham = $this->modelSanPham->getDetailSanPham($item['san_pham_id']);
+                if (!$sanPham) {
+                    continue;
+                }
+                if ($item['so_luong'] > $sanPham['so_luong']) {
+                    $stockErrors[] = $sanPham['ten_san_pham'] . ' chỉ còn ' . $sanPham['so_luong'] . ' sản phẩm trong kho';
+                }
+            }
 
+            if (!empty($stockErrors)) {
+                $message = urlencode(implode(', ', $stockErrors));
+                header('Location: ' . BASE_URL . '?act=thanh-toan&error_stock=1&message=' . $message);
+                exit();
+            }
+
+            //Thêm thông tin vào db
             $donHang = $this->modelDonHang->addDonHang(
                 $tai_khoan_id,
                 $ten_nguoi_nhan,
@@ -359,14 +398,11 @@ class HomeController
                 $ma_don_hang,
                 $trang_thai_id
             );
-            // lấy thông tin giỏ hàng của người dùng
-            $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
 
             // lưu sản phẩm vào chi tiết đơn hàng
             if ($donHang) {
                 // lấy ra toàn bộ sản phẩm trong giỏ hàng   
-                $chiTietGioHang = $this->modelGioHang->detailGioHang($gioHang['id']);
-                // var_dump($donHang); die;
+                // $chiTietGioHang is already loaded above
 
                 // thêm từng sản phẩm từ giỏ hàng vào bảng chi tiết đơn hàng
                 foreach ($chiTietGioHang as $item) {
@@ -547,11 +583,22 @@ class HomeController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
             $san_pham_id = $_POST['san_pham_id'] ?? 0;
-            $so_luong = $_POST['so_luong'] ?? 1;
+            $so_luong = intval($_POST['so_luong'] ?? 1);
 
             if ($san_pham_id && $so_luong > 0) {
                 $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
                 $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+                $sanPham = $this->modelSanPham->getDetailSanPham($san_pham_id);
+
+                if (!$sanPham) {
+                    echo json_encode(['success' => false, 'message' => 'Không tìm thấy sản phẩm']);
+                    exit();
+                }
+
+                if ($so_luong > $sanPham['so_luong']) {
+                    echo json_encode(['success' => false, 'message' => 'Số lượng tối đa là ' . $sanPham['so_luong']]);
+                    exit();
+                }
 
                 if ($gioHang) {
                     $this->modelGioHang->updateSoLuong($gioHang['id'], $san_pham_id, $so_luong);

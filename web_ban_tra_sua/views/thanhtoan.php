@@ -51,6 +51,11 @@
                     <!-- Checkout Login Coupon Accordion End -->
                 </div>
             </div>
+            <?php if (isset($_GET['error_stock'])): ?>
+                <div class="alert alert-danger mb-3">
+                    <?= htmlspecialchars($_GET['message'] ?? 'Một số sản phẩm trong giỏ hàng vượt quá số lượng tồn kho. Vui lòng kiểm tra lại.') ?>
+                </div>
+            <?php endif; ?>
             <form action="<?= BASE_URL . '?act=xu-ly-thanh-toan' ?>" method="post">
                 <div class="row">
                     <!-- Checkout Billing Details -->
