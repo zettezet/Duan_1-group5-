@@ -81,8 +81,16 @@
                                     </div>
                                     <div class="availability">
                                         <i class="fa fa-check-circle"></i>
-                                        <span><?= $sanPham['so_luong'] . 'Trong kho' ?></span>
+                                        <span><?= $sanPham['so_luong'] . ' trong kho' ?></span>
                                     </div>
+                                    <?php if (isset($_GET['stock_error'])): ?>
+                                        <div class="alert alert-danger mt-2">
+                                            Số lượng đặt hàng vượt quá tồn kho.
+                                            <?php if (!empty($_GET['max_qty'])): ?>
+                                                Hiện chỉ còn <?= (int)$_GET['max_qty'] ?> sản phẩm.
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <p class="pro-desc"><?= $sanPham['mo_ta'] ?></p>
                                     <form action="<?= BASE_URL . '?act=them-gio-hang' ?>" method="post">
                                         <div class="quantity-cart-box d-flex align-items-center">

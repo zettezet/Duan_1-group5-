@@ -46,6 +46,9 @@ match ($act) {
     'xoa-khoi-gio-hang' => (new HomeController())->xoaKhoiGioHang(),
     'cap-nhat-so-luong-gio-hang' => (new HomeController())->capNhatSoLuongGioHang(),
     'them-binh-luan' => (new HomeController())->themBinhLuan(),
+    'register' => (new HomeController())->register(),
+    'login' => (new HomeController())->formLogin(),
+    'check-login' => (new HomeController())->postLogin(),
 
 
     // auth
